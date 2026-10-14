@@ -180,8 +180,8 @@ lemma deriv_coord_2nd_add (f : Space → EuclideanSpace ℝ (Fin 3)) (hf : ContD
   repeat rw [deriv_eq_fderiv_fun]
   ext x
   rw [fderiv_fun_add, fderiv_fun_add]
-  on_goal 1 => simp only [_root_.add_apply, Pi.add_apply]
-  · ring
+  · simp only [_root_.add_apply, Pi.add_apply]
+    ring
   repeat fun_prop
 
 /-- Second derivatives distribute coordinate-wise over subtraction (two components for curl). -/
@@ -192,7 +192,7 @@ lemma deriv_coord_2nd_sub (f : Space → EuclideanSpace ℝ (Fin 3)) (hf : ContD
   ext x
   simp only [Pi.sub_apply]
   rw [fderiv_fun_sub]
-  on_goal 1 => simp only [FunLike.coe_sub, Pi.sub_apply]
+  · simp only [FunLike.coe_sub, Pi.sub_apply]
   repeat fun_prop
 
 /-!
@@ -208,13 +208,13 @@ lemma div_of_curl_eq_zero (f : Space → EuclideanSpace ℝ (Fin 3)) (hf : ContD
   simp only [Fin.isValue, Fin.univ_val_map, List.ofFn_succ, zero_add, Fin.succ_zero_eq_one,
     Fin.reduceAdd, Fin.succ_one_eq_two, List.ofFn_zero, Multiset.sum_coe, List.sum_cons,
     List.sum_nil, add_zero, Pi.ofNat_apply]
-  on_goal 1 => rw [deriv_coord_2nd_sub, deriv_coord_2nd_sub, deriv_coord_2nd_sub]
-  on_goal 1 => simp only [Fin.isValue, Pi.sub_apply]
-  on_goal 1 => rw [deriv_commute fun x => f x 0, deriv_commute fun x => f x 1,
-    deriv_commute fun x => f x 2]
-  · simp only [Fin.isValue, sub_add_sub_cancel', sub_self]
-  repeat
-    try apply contDiff_euclidean.mp
+  rw [deriv_coord_2nd_sub, deriv_coord_2nd_sub, deriv_coord_2nd_sub]
+  · simp only [Fin.isValue, Pi.sub_apply]
+    rw [deriv_commute fun x => f x 0, deriv_commute fun x => f x 1,
+      deriv_commute fun x => f x 2]
+    simp only [Fin.isValue, sub_add_sub_cancel', sub_self]
+    repeat
+      try apply contDiff_euclidean.mp
     exact hf
 
 /-!
@@ -467,8 +467,8 @@ private lemma deriv_intervalIntegral_homotopyOperatorIntegrand_sub
       intro i
       apply MeasureTheory.IntegrableOn.integrable
       rw [← intervalIntegrable_iff_integrableOn_Ioc_of_le]
-      on_goal 1 => apply Continuous.intervalIntegrable
-      · fun_prop
+      · apply Continuous.intervalIntegrable
+        fun_prop
       simp
   repeat rw [Space.deriv_euclid, Space.deriv, (hfderiv x₀).fderiv]
   rotate_left
