@@ -502,8 +502,8 @@ lemma eq_neg_curl_of_div_zero (f : Space → EuclideanSpace ℝ (Fin 3)) (hf : C
       ring
     simp only [fderiv_eq_smul_deriv, smul_eq_mul, one_mul]
     rw [intervalIntegral.integral_deriv_eq_sub (by fun_prop)]
-    · simp only [one_pow, one_smul, one_mul, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow,
-      zero_smul, zero_mul, sub_zero]
+    · simp only [one_pow, one_smul, one_mul, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true,
+      zero_pow, zero_smul, zero_mul, sub_zero]
     · apply Continuous.intervalIntegrable
       fun_prop
   change f = -curl fun x => ∫ (t : ℝ) in 0..1, homotopyOperatorIntegrand f x t
