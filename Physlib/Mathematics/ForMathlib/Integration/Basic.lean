@@ -8,9 +8,28 @@ module
 public import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
 public import Mathlib.MeasureTheory.Constructions.HaarToSphere
 /-!
-# Real integrals in multidimensional space
+# Real multidimensional integrals
 
-We define lemmas for manipulating integrals over real fields.
+This file may eventually be upstreamed to Mathlib.
+
+## i. Overview
+
+Mathlib's `MeasureTheory.integral_withDensity_eq_integral_smul` converts an integral against a
+measure `μ.withDensity f` into an integral against `μ`, but it takes the density as an
+`NNReal`-valued function.
+
+This file contains the version of that lemma for densities given as real-valued functions.
+
+## ii. Key results
+
+- `Integration.integral_withDensity_ofReal_eq_integral_smul` : for measurable `f ≥ 0`,
+  `∫ x, g x ∂(μ.withDensity fun x => ENNReal.ofReal (f x)) = ∫ x, f x • g x ∂μ`.
+
+## iii. Table of contents
+
+- A. Integrals against a real-valued density
+
+## iv. References
 
 -/
 
@@ -18,7 +37,13 @@ We define lemmas for manipulating integrals over real fields.
 
 namespace Integration
 
+/-! ## A. Integrals against a real-valued density -/
+
 open MeasureTheory in
+/-- Integrating `g` against the measure with real-valued density `f` (taken through
+`ENNReal.ofReal`) is integrating `f x • g x` against the original measure, for measurable
+`f` that is everywhere nonnegative. This is the `ℝ`-valued form of
+`integral_withDensity_eq_integral_smul`, which takes an `NNReal`-valued density. -/
 lemma integral_withDensity_ofReal_eq_integral_smul {α : Type*} [MeasurableSpace α]
     {μ : Measure α} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {f : α → ℝ} (hf : Measurable f) (hf0 : ∀ x, 0 ≤ f x) (g : α → E) :
