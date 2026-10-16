@@ -5,7 +5,7 @@ Authors: Joseph Tooby-Smith
 -/
 module
 
-public import Physlib.Mathematics.ForMathLib.Integration.Basic
+public import Physlib.Mathematics.ForMathlib.Integration.Basic
 public import Physlib.SpaceAndTime.Space.Derivatives.Laplacian
 public import Physlib.SpaceAndTime.Space.Integrals.NormPow
 public import Physlib.Mathematics.Distribution.PowMul
