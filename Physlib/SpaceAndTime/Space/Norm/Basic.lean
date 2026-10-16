@@ -5,6 +5,7 @@ Authors: Joseph Tooby-Smith
 -/
 module
 
+public import Physlib.Mathematics.ForMathLib.Integration.Basic
 public import Physlib.SpaceAndTime.Space.Derivatives.Laplacian
 public import Physlib.SpaceAndTime.Space.Integrals.NormPow
 public import Physlib.Mathematics.Distribution.PowMul
@@ -859,7 +860,7 @@ private lemma distDiv_norm_zpow_smul_repr_self_apply_eq_radial_deriv
           congr
           funext n
           simp [F, Measure.volumeIoiPow]
-          rw [integral_withDensity_ofReal_eq_integral_smul]
+          rw [Integration.integral_withDensity_ofReal_eq_integral_smul]
           congr
           funext r
           have hr : 0 < (r : ℝ) := r.2
@@ -1031,7 +1032,7 @@ lemma distDiv_inv_pow_eq_dim {d : ℕ} [NeZero d] :
           congr
           funext n
           simp [Measure.volumeIoiPow]
-          rw [integral_withDensity_ofReal_eq_integral_smul]
+          rw [Integration.integral_withDensity_ofReal_eq_integral_smul]
           congr
           funext r
           have hr : (0 : ℝ) < r.1 := r.2

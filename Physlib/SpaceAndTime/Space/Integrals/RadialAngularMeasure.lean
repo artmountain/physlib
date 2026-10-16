@@ -5,6 +5,7 @@ Authors: Joseph Tooby-Smith
 -/
 module
 
+public import Physlib.Mathematics.ForMathLib.Integration.Basic
 public import Physlib.SpaceAndTime.Space.Integrals.Basic
 /-!
 
@@ -97,7 +98,7 @@ instance (d : ℕ) : SFinite (radialAngularMeasure (d := d)) := by
 lemma integral_radialAngularMeasure {d : ℕ} (f : Space d → F) :
     ∫ x, f x ∂radialAngularMeasure = ∫ x, (1 / ‖x‖ ^ (d - 1)) • f x := by
   dsimp [radialAngularMeasure]
-  rw [integral_withDensity_ofReal_eq_integral_smul (by fun_prop)]
+  rw [Integration.integral_withDensity_ofReal_eq_integral_smul (by fun_prop)]
   intro r
   positivity
 
