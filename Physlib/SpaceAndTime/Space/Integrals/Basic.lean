@@ -195,6 +195,16 @@ instance : SFinite (@Measure.comap ↑(Set.Ioi 0) ℝ Subtype.instMeasurableSpac
         apply MeasurableEmbedding.subtype_coe
         simp
 
+lemma integral_withDensity_ofReal_eq_integral_smul {α : Type*} [MeasurableSpace α]
+    {μ : Measure α} {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {f : α → ℝ} (hf : Measurable f) (hf0 : ∀ x, 0 ≤ f x) (g : α → E) :
+    ∫ x, g x ∂(μ.withDensity fun x => ENNReal.ofReal (f x)) = ∫ x, f x • g x ∂μ := by
+  refine (integral_withDensity_eq_integral_smul
+    (f := fun x => Real.toNNReal (f x)) hf.real_toNNReal g).trans ?_
+  congr 1
+  funext x
+  rw [NNReal.smul_def, Real.coe_toNNReal _ (hf0 x)]
+
 lemma integral_volume_eq_spherical_integral {d : ℕ} [NeZero d] {F : Type*}
     [NormedAddCommGroup F] [NormedSpace ℝ F] (f : Space d → F)
     (hf : Integrable f volume) :
@@ -207,11 +217,10 @@ lemma integral_volume_eq_spherical_integral {d : ℕ} [NeZero d] {F : Type*}
   congr
   funext n
   simp [Measure.volumeIoiPow]
-  erw [integral_withDensity_eq_integral_smul (by fun_prop)]
+  refine (integral_withDensity_ofReal_eq_integral_smul
+    (f := fun r : Set.Ioi (0 : ℝ) => r.1 ^ (d - 1)) (by fun_prop)
+    (fun r => pow_nonneg r.2.le _) _).trans ?_
   congr
-  funext r
-  have hr : 0 ≤ (r : ℝ) := le_of_lt r.2
-  rw [NNReal.smul_def, Real.coe_toNNReal _ (pow_nonneg hr (d - 1))]
 
 /-!
 
