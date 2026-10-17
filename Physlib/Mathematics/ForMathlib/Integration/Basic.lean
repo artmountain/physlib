@@ -8,9 +8,9 @@ module
 public import Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls
 public import Mathlib.MeasureTheory.Constructions.HaarToSphere
 /-!
-# Real multidimensional integrals
+# Basic integration results
 
-This file may eventually be upstreamed to Mathlib.
+Basic results related to integration not in Mathlib.
 
 ## i. Overview
 
