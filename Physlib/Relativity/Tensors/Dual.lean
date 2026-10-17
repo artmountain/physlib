@@ -110,6 +110,7 @@ lemma crossToEnd_metricTensor_metricTensor_eq_dual_unit {c : C} :
 
 -/
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Dualising the index `i` twice returns the original tensor, up to the reindexing of the
   colors. -/
 lemma toDualMapAtIndex_toDualMapAtIndex {n : ℕ} {c : Fin n → C}
