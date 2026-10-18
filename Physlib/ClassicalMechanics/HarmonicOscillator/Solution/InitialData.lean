@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Art Mountain. All rights reserved.
+Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Art Mountain
+Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
@@ -12,12 +12,13 @@ public import Physlib.Mathematics.Calculus.Gradient
 public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 /-!
-## Periodicity and recurrence
 
-Every trajectory is a shifted cosine of angular frequency `ω`, so it repeats after a fixed period
-`T = 2π / ω`. We record the period, show the trajectory is periodic, and prove that — for
-non-trivial initial data — the trajectory returns to its initial position and velocity exactly at
-integer multiples of the period.
+## The initial conditions
+
+We define the type of initial conditions for the harmonic oscillator.
+The initial conditions are currently defined as an initial position and an initial velocity,
+that is the values of the solution and its time derivative at time `0`.
+
 -/
 
 @[expose] public
@@ -30,16 +31,7 @@ open Real
 
 /-!
 
-## A. The initial conditions
-
-We define the type of initial conditions for the harmonic oscillator.
-The initial conditions are currently defined as an initial position and an initial velocity,
-that is the values of the solution and its time derivative at time `0`.
-
--/
-/-!
-
-### A.1. Definition of the initial conditions
+### A. Definition of the initial conditions
 
 We start by defining the type of initial conditions for the harmonic oscillator.
 
@@ -59,7 +51,7 @@ initial positions and initial velocities are equal. -/
 
 /-!
 
-### A.2. Relation to other types of initial conditions
+### B. Relation to other types of initial conditions
 
 We relate the initial condition given by an initial position and an initial velocity
 to other specifications of initial conditions.
@@ -87,7 +79,7 @@ the original specifications.
 
 /-!
 
-#### A.2.1. Initial conditions at arbitrary time
+#### B.1. Initial conditions at arbitrary time
 
 We define a type for initial conditions specified at an arbitrary time `t₀`, rather than at `t=0`.
 This is useful when the natural reference point for a problem is not at time zero.
@@ -144,7 +136,7 @@ end InitialConditionsAtTime
 
 /-!
 
-#### A.2.2. Initial conditions from two positions at different times
+#### B.2. Initial conditions from two positions at different times
 
 We define a type for initial conditions specified by two measured positions `xT₁` and `xT₂`
 at two distinct times `t₁` and `t₂`.
@@ -199,7 +191,7 @@ end InitialConditionsFromTwoPositions
 
 /-!
 
-#### A.2.3. Initial conditions from two velocities at different times
+#### B.3. Initial conditions from two velocities at different times
 
 We define a type for initial conditions specified by two measured velocities `vT₁` and `vT₂`
 at two distinct times `t₁` and `t₂`.
@@ -253,7 +245,7 @@ end InitialConditionsFromTwoVelocities
 
 /-!
 
-### A.3. The zero initial conditions
+### C. The zero initial conditions
 
 The zero initial conditions are the initial conditions with zero initial position
 and zero initial velocity.
@@ -270,7 +262,7 @@ instance : Zero InitialConditions := ⟨0, 0⟩
 
 /-!
 
-#### A.3.1. Simple results for the zero initial conditions
+#### C.1. Simple results for the zero initial conditions
 
 Some simple results about the zero initial conditions.
 

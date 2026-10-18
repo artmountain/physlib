@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Art Mountain. All rights reserved.
+Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Art Mountain
+Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
@@ -13,12 +13,9 @@ public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 /-!
-## Periodicity and recurrence
 
-Every trajectory is a shifted cosine of angular frequency `ω`, so it repeats after a fixed period
-`T = 2π / ω`. We record the period, show the trajectory is periodic, and prove that — for
-non-trivial initial data — the trajectory returns to its initial position and velocity exactly at
-integer multiples of the period.
+## The energy of the trajectories
+
 -/
 
 @[expose] public
@@ -35,13 +32,12 @@ namespace InitialConditions
 
 /-!
 
-## D. The energy of the trajectories
+## A. Conservation of energy
 
 For a given set of initial conditions, the energy of the trajectory is constant,
 due to the conservation of energy. Here we show it's value.
 
 -/
-
 lemma trajectory_energy (IC : InitialConditions) : S.energy (IC.trajectory S) =
     fun _ => 1/2 * (S.m * ‖IC.v₀‖ ^2 + S.k * ‖IC.x₀‖ ^ 2) := by
   funext t
@@ -53,7 +49,7 @@ end InitialConditions
 
 /-!
 
-### D.1. Correctness of InitialConditionsAtTime conversion
+### B. Correctness of InitialConditionsAtTime conversion
 
 We now prove the correctness lemmas for the `InitialConditionsAtTime.toInitialConditions`
 conversion function. These show that the conversion produces a trajectory that passes through
@@ -103,7 +99,7 @@ end InitialConditionsAtTime
 
 /-!
 
-### D.2. Correctness of InitialConditionsFromTwoPositions conversion
+### C. Correctness of InitialConditionsFromTwoPositions conversion
 
 The conversion recovers the initial conditions only when `sin (S.ω * (t₂ - t₁)) ≠ 0`. This
 condition fails exactly when `ω·(t₂ - t₁) = n·π` for some integer `n`, i.e. when `t₂ - t₁` is an
@@ -145,7 +141,7 @@ end InitialConditionsFromTwoPositions
 
 /-!
 
-### D.3. Correctness of InitialConditionsFromTwoVelocities conversion
+### D. Correctness of InitialConditionsFromTwoVelocities conversion
 
 The conversion recovers the initial conditions only when `sin (S.ω * (t₂ - t₁)) ≠ 0`. Under this
 nondegeneracy condition, we prove that the resulting trajectory has velocity `vT₁` at `t₁` and

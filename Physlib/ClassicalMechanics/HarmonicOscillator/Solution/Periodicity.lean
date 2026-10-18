@@ -13,12 +13,14 @@ public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 /-!
+
 ## Periodicity and recurrence
 
 Every trajectory is a shifted cosine of angular frequency `ω`, so it repeats after a fixed period
 `T = 2π / ω`. We record the period, show the trajectory is periodic, and prove that — for
 non-trivial initial data — the trajectory returns to its initial position and velocity exactly at
 integer multiples of the period.
+
 -/
 
 @[expose] public
@@ -31,7 +33,7 @@ open Real Time ContDiff
 
 /-!
 
-### G.1. The period
+### 1. The period
 
 The period `T = 2π / ω` is the time for one complete oscillation; it is positive since `ω > 0`.
 
@@ -51,7 +53,7 @@ lemma period_pos : 0 < T S := div_pos (by positivity) S.ω_pos
 
 /-!
 
-### G.2. Periodicity of the trajectory
+### 2. Periodicity of the trajectory
 
 The trajectory satisfies `x(t + T) = x(t)`: advancing time by one period shifts the phase `ω t`
 by `2π`, leaving `cos` and `sin` unchanged.
@@ -71,7 +73,7 @@ lemma trajectory_periodic (IC : InitialConditions) :
 
 /-!
 
-### G.3. Return to the initial state
+### 3. Return to the initial state
 
 For non-trivial initial data, the trajectory returns to its initial position and velocity only at
 integer multiples of the period.

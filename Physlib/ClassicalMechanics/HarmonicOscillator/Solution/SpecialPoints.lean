@@ -15,12 +15,16 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
 /-!
-## Periodicity and recurrence
+## Special conditions of the trajectory
 
-Every trajectory is a shifted cosine of angular frequency `ω`, so it repeats after a fixed period
-`T = 2π / ω`. We record the period, show the trajectory is periodic, and prove that — for
-non-trivial initial data — the trajectory returns to its initial position and velocity exactly at
-integer multiples of the period.
+We use the amplitude-phase parametrization from section E to describe the special times of a
+trajectory. After converting arbitrary initial conditions to amplitude and phase, every trajectory
+has the form `x(t) = A cos (ω t - φ)` and its velocity has the form `v(t) = -Aω sin (ω t - φ)`.
+
+Thus the turning points of the motion are controlled by the zeros of `sin (ω t - φ)`, while the
+times at which the trajectory passes through the origin are controlled by the zeros of
+`cos (ω t - φ)`.
+
 -/
 
 @[expose] public
@@ -35,21 +39,7 @@ variable (S : HarmonicOscillator)
 
 /-!
 
-## F. Special conditions of the trajectory
-
-We use the amplitude-phase parametrization from section E to describe the special times of a
-trajectory. After converting arbitrary initial conditions to amplitude and phase, every trajectory
-has the form `x(t) = A cos (ω t - φ)` and its velocity has the form `v(t) = -Aω sin (ω t - φ)`.
-
-Thus the turning points of the motion are controlled by the zeros of `sin (ω t - φ)`, while the
-times at which the trajectory passes through the origin are controlled by the zeros of
-`cos (ω t - φ)`.
-
--/
-
-/-!
-
-### F.1. Normal form for standard initial conditions
+### 1. Normal form for standard initial conditions
 
 The amplitude-phase normal form was first proved for data already expressed as an
 `AmplitudePhase`. We now transport those identities back to ordinary `InitialConditions` using
@@ -80,7 +70,7 @@ lemma trajectory_velocity_eq_sin (IC : InitialConditions) (t : Time) :
 
 /-!
 
-### F.2. Times at which the velocity is zero
+### 2. Times at which the velocity is zero
 
 In amplitude-phase form the velocity is `v(t) = -Aω sin (ω t - φ)`. For nonzero amplitude this
 vanishes exactly when `sin (ω t - φ) = 0`, equivalently when `ω t - φ` is an
@@ -119,7 +109,7 @@ lemma trajectory_velocity_eq_zero_iff_exists_int (IC : InitialConditions)
 
 /-!
 
-### F.3. The position when the velocity is zero
+### 3. The position when the velocity is zero
 
 The zeros of the velocity are the turning points of the oscillator. In amplitude-phase form,
 these are the times when `sin (ω t - φ) = 0`; equivalently, `cos (ω t - φ)` is `1` or `-1`.
@@ -160,7 +150,7 @@ lemma trajectory_velocity_eq_zero_iff_norm_eq_amplitude (IC : InitialConditions)
 
 /-!
 
-### F.4. Times at which the trajectory passes through zero
+### 4. Times at which the trajectory passes through zero
 
 In amplitude-phase form the trajectory is `x(t) = A cos (ω t - φ).` For nonzero amplitude this
 vanishes exactly when `cos (ω t - φ) = 0`, equivalently when the phase is an odd multiple

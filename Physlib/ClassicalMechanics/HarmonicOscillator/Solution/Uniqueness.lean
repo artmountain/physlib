@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Art Mountain. All rights reserved.
+Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Art Mountain
+Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
@@ -15,12 +15,14 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
 /-!
-## Periodicity and recurrence
+## Uniqueness
 
-Every trajectory is a shifted cosine of angular frequency `ω`, so it repeats after a fixed period
-`T = 2π / ω`. We record the period, show the trajectory is periodic, and prove that — for
-non-trivial initial data — the trajectory returns to its initial position and velocity exactly at
-integer multiples of the period.
+We show that the trajectories are the unique solutions to the equation of motion
+for the given initial conditions.
+
+## References
+
+* Landau and Lifshitz, Mechanics, Section 32. [ref: landau_mechanics]
 -/
 
 @[expose] public
@@ -36,8 +38,7 @@ variable (S : HarmonicOscillator)
 namespace InitialConditions
 
 /-!
-
-### C.1. Uniqueness of the solutions
+## Uniqueness
 
 We show that the trajectories are the unique solutions to the equation of motion
 for the given initial conditions.
