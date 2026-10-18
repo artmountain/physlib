@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Art Mountain. All rights reserved.
+Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Art Mountain
+Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
@@ -33,7 +33,7 @@ open Real Time ContDiff
 
 /-!
 
-### 1. The period
+### A. The period
 
 The period `T = 2π / ω` is the time for one complete oscillation; it is positive since `ω > 0`.
 
@@ -53,7 +53,7 @@ lemma period_pos : 0 < T S := div_pos (by positivity) S.ω_pos
 
 /-!
 
-### 2. Periodicity of the trajectory
+### B. Periodicity of the trajectory
 
 The trajectory satisfies `x(t + T) = x(t)`: advancing time by one period shifts the phase `ω t`
 by `2π`, leaving `cos` and `sin` unchanged.
@@ -73,7 +73,7 @@ lemma trajectory_periodic (IC : InitialConditions) :
 
 /-!
 
-### 3. Return to the initial state
+### C. Return to the initial state
 
 For non-trivial initial data, the trajectory returns to its initial position and velocity only at
 integer multiples of the period.

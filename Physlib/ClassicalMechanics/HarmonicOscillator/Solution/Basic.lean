@@ -13,7 +13,7 @@ public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 /-!
-## Basic propoerties of trajectories
+## Basic properties of trajectories
 
 To each initial condition we association a trajectory. We will prove some basic properties
 of these trajectories.

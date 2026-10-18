@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Art Mountain. All rights reserved.
+Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Art Mountain
+Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
@@ -39,7 +39,7 @@ variable (S : HarmonicOscillator)
 
 /-!
 
-### 1. Normal form for standard initial conditions
+### A. Normal form for standard initial conditions
 
 The amplitude-phase normal form was first proved for data already expressed as an
 `AmplitudePhase`. We now transport those identities back to ordinary `InitialConditions` using
@@ -70,7 +70,7 @@ lemma trajectory_velocity_eq_sin (IC : InitialConditions) (t : Time) :
 
 /-!
 
-### 2. Times at which the velocity is zero
+### B. Times at which the velocity is zero
 
 In amplitude-phase form the velocity is `v(t) = -Aω sin (ω t - φ)`. For nonzero amplitude this
 vanishes exactly when `sin (ω t - φ) = 0`, equivalently when `ω t - φ` is an
@@ -109,7 +109,7 @@ lemma trajectory_velocity_eq_zero_iff_exists_int (IC : InitialConditions)
 
 /-!
 
-### 3. The position when the velocity is zero
+### C. The position when the velocity is zero
 
 The zeros of the velocity are the turning points of the oscillator. In amplitude-phase form,
 these are the times when `sin (ω t - φ) = 0`; equivalently, `cos (ω t - φ)` is `1` or `-1`.
@@ -150,7 +150,7 @@ lemma trajectory_velocity_eq_zero_iff_norm_eq_amplitude (IC : InitialConditions)
 
 /-!
 
-### 4. Times at which the trajectory passes through zero
+### D. Times at which the trajectory passes through zero
 
 In amplitude-phase form the trajectory is `x(t) = A cos (ω t - φ).` For nonzero amplitude this
 vanishes exactly when `cos (ω t - φ) = 0`, equivalently when the phase is an odd multiple

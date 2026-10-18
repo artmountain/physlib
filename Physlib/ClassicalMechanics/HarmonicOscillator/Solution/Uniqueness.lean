@@ -38,7 +38,7 @@ variable (S : HarmonicOscillator)
 namespace InitialConditions
 
 /-!
-## Uniqueness
+## A. Uniqueness
 
 We show that the trajectories are the unique solutions to the equation of motion
 for the given initial conditions.
