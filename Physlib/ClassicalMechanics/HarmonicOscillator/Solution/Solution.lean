@@ -27,7 +27,9 @@ prove that they satisfy the equation of motion, and prove some properties of the
 - `trajectories` is the trajectories to the harmonic oscillator for given initial conditions.
 - `trajectories_equationOfMotion` proves that the solution satisfies the equation of motion.
 
-## iii. Contents of files
+## iii. Table of contents
+
+This provides a breakdown of what is in each file
 
 - AmplitudePhase.lean : Amplitude–phase parametrization
   - A. The amplitude–phase initial conditions
