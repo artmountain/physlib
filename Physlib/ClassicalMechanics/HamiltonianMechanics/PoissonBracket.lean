@@ -41,6 +41,7 @@ derivatives on phase space.
   a trajectory is the sum of its gradients paired with the trajectory's velocities.
 - `deriv_comp_eq_poissonBracket` : along a solution of Hamilton's equations, the time derivative of
   an observable is its Poisson bracket with the Hamiltonian.
+- `poissonBracket_jacobi` : Poisson brackets satisfy the Jacobi identity
 
 ## iii. Table of contents
 
@@ -68,8 +69,7 @@ namespace ClassicalMechanics
 
 variable {X} [NormedAddCommGroup X] [InnerProductSpace ℝ X] [CompleteSpace X]
 
-TODO "Add the canonical commutation relations for coordinate functionals and the Jacobi identity
-    for `poissonBracket`."
+TODO "Add the canonical commutation relations for coordinate functionals"
 
 /-!
 
@@ -276,19 +276,9 @@ lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
 
 /-- The Jacobi identity for the Poisson bracket. -/
 lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
-    (hcp₁ : ContDiffAt ℝ 2 (fun p' => f₁ p' q) p)
-    (hcp₂ : ContDiffAt ℝ 2 (fun p' => f₂ p' q) p)
-    (hcp₃ : ContDiffAt ℝ 2 (fun p' => f₃ p' q) p)
-    (hcq₁ : ContDiffAt ℝ 2 (fun q' => f₁ p q') q)
-    (hcq₂ : ContDiffAt ℝ 2 (fun q' => f₂ p q') q)
-    (hcq₃ : ContDiffAt ℝ 2 (fun q' => f₃ p q') q)
-    -- mixed partial derivatives commute (to be derived from C² later)
-    (hm₁ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₁ p' q') p) q w v =
-      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₁ p' q') q) p v w)
-    (hm₂ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₂ p' q') p) q w v =
-      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₂ p' q') q) p v w)
-    (hm₃ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₃ p' q') p) q w v =
-      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₃ p' q') q) p v w) :
+    (hf₁ : ContDiff ℝ 2 (Function.uncurry f₁))
+    (hf₂ : ContDiff ℝ 2 (Function.uncurry f₂))
+    (hf₃ : ContDiff ℝ 2 (Function.uncurry f₃)) :
     poissonBracket f₁ (poissonBracket f₂ f₃) p q +
     poissonBracket f₂ (poissonBracket f₃ f₁) p q +
     poissonBracket f₃ (poissonBracket f₁ f₂) p q = 0 := by
@@ -303,12 +293,49 @@ lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
   -- 3. Derivatives of gradients become second derivatives.
   simp only [inner_fderiv_gradient, inner_fderiv_gradient',
     inner_fderiv_gradient_param, inner_fderiv_gradient_param']
-  -- 4. Standard form for every second derivative, then everything cancels.
-  simp only [hm₁, hm₂, hm₃]
+  -- 4. Mixed partial derivatives commute, for any `f` that is `C²` on phase space.
+  have hmix : ∀ f : X → X → ℝ, ContDiff ℝ 2 (Function.uncurry f) → ∀ v w,
+      fderiv ℝ (fun q' => fderiv ℝ (fun p' => f p' q') p) q w v =
+        fderiv ℝ (fun p' => fderiv ℝ (fun q' => f p' q') q) p v w := by
+    intro f hf v w
+    set F := Function.uncurry f
+    have hF1 : Differentiable ℝ F := hf.differentiable (by norm_num)
+    have hF2 : Differentiable ℝ (fderiv ℝ F) :=
+      (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
+    -- Each partial derivative is the full derivative restricted to one factor.
+    have hp : (fun q' => fderiv ℝ (fun p' => f p' q') p) =
+        fun q' => (fderiv ℝ F (p, q')).comp (ContinuousLinearMap.inl ℝ X X) := by
+      funext q'
+      exact ((hF1 (p, q')).hasFDerivAt.comp p (hasFDerivAt_prodMk_left (𝕜 := ℝ) p q')).fderiv
+    have hq : (fun p' => fderiv ℝ (fun q' => f p' q') q) =
+        fun p' => (fderiv ℝ F (p', q)).comp (ContinuousLinearMap.inr ℝ X X) := by
+      funext p'
+      exact ((hF1 (p', q)).hasFDerivAt.comp q (hasFDerivAt_prodMk_right p' q)).fderiv
+    -- Differentiate once more, along the other factor.
+    have hDp : HasFDerivAt
+        (fun q' => (fderiv ℝ F (p, q')).comp (ContinuousLinearMap.inl ℝ X X)) _ q :=
+      ((hF2 (p, q)).hasFDerivAt.comp q (hasFDerivAt_prodMk_right p q)).clm_comp
+        (hasFDerivAt_const (ContinuousLinearMap.inl ℝ X X) q)
+    have hDq : HasFDerivAt
+        (fun p' => (fderiv ℝ F (p', q)).comp (ContinuousLinearMap.inr ℝ X X)) _ p :=
+      ((hF2 (p, q)).hasFDerivAt.comp p (hasFDerivAt_prodMk_left p q)).clm_comp
+        (hasFDerivAt_const (ContinuousLinearMap.inr ℝ X X) p)
+    rw [hp, hq, hDp.fderiv, hDq.fderiv]
+    simp
+    -- Both sides are now the full second derivative of `F`, in opposite orders.
+    exact (hf.contDiffAt.isSymmSndFDerivAt (by simp)) _ _
+  simp only [hmix f₁ hf₁, hmix f₂ hf₂, hmix f₃ hf₃]
   have hsymm : ∀ (g : X → ℝ) (x : X), ContDiffAt ℝ 2 g x →
       ∀ v w, fderiv ℝ (fderiv ℝ g) x v w = fderiv ℝ (fderiv ℝ g) x w v :=
     fun g x hg => hg.isSymmSndFDerivAt (by simp)
-  simp (disch := assumption) only [hsymm]
+  have hcp : ∀ f : X → X → ℝ, ContDiff ℝ 2 (Function.uncurry f) →
+      ContDiffAt ℝ 2 (fun p' => f p' q) p :=
+    fun f hf => (hf.comp (contDiff_id.prodMk contDiff_const)).contDiffAt
+  have hcq : ∀ f : X → X → ℝ, ContDiff ℝ 2 (Function.uncurry f) →
+      ContDiffAt ℝ 2 (fun q' => f p q') q :=
+    fun f hf => (hf.comp (contDiff_const.prodMk contDiff_id)).contDiffAt
+  simp only [hsymm _ _ (hcp f₁ hf₁), hsymm _ _ (hcp f₂ hf₂), hsymm _ _ (hcp f₃ hf₃),
+    hsymm _ _ (hcq f₁ hf₁), hsymm _ _ (hcq f₂ hf₂), hsymm _ _ (hcq f₃ hf₃)]
   ring
 
 end ClassicalMechanics
