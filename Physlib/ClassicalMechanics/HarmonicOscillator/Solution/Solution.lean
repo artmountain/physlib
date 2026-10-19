@@ -29,7 +29,29 @@ prove that they satisfy the equation of motion, and prove some properties of the
 
 ## iii. Table of contents
 
-This provides a breakdown of what is in each file
+- A. A guide to what is in each file
+
+## iv. References
+
+References for the classical harmonic oscillator include:
+
+* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
+-/
+
+TODO "There are some namespaces that should be changed. For example a lot of lemmas sit in
+the `Initial Conditions` namespace. This change would have wider implications so separating that
+from splitting up the monolithic file"
+
+@[expose] public section
+
+namespace ClassicalMechanics
+open Real Time ContDiff
+
+namespace HarmonicOscillator
+
+/-!
+
+## A. A guide to what is in each file
 
 - AmplitudePhase.lean : Amplitude–phase parametrization
   - A. The amplitude–phase initial conditions
@@ -76,23 +98,7 @@ This provides a breakdown of what is in each file
   - Uniqueness.lean : Uniqueness of the solutions
     - A. Uniqueness
 
-## iv. References
-
-References for the classical harmonic oscillator include:
-
-* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
-
-TODO "There are some namespaces that should be changed. For example a lot of lemmas sit in
-the `Initial Conditions` namespace. This change would have wider implications so separating that
-from splitting up the monolithic file"
-
-@[expose] public section
-
-namespace ClassicalMechanics
-open Real Time ContDiff
-
-namespace HarmonicOscillator
 
 end HarmonicOscillator
 
