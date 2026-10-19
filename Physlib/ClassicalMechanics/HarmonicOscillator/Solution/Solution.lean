@@ -81,7 +81,7 @@ References for the classical harmonic oscillator include:
 * Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
-TODO "There are some namespaces that shoud be changed. For example a lot of lemmas sit in
+TODO "There are some namespaces that should be changed. For example a lot of lemmas sit in
 the `Initial Conditions` namespace. This change would have wider implications so separating that
 from splitting up the monolithic file"
 
