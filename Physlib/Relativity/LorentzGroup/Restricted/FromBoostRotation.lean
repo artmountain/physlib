@@ -36,7 +36,7 @@ def toVelocity {d} (Λ : LorentzGroup.restricted d) : Lorentz.Velocity d :=
     rw [isOrthochronous_iff_ge_one] at h
     linarith⟩
 
-@[simp] lemma toVelocity_val {d} (Λ : LorentzGroup.restricted d) :
+lemma toVelocity_val {d} (Λ : LorentzGroup.restricted d) :
     (toVelocity Λ).1 = toVector Λ := rfl
 
 @[fun_prop]
