@@ -31,6 +31,8 @@ namespace ClassicalMechanics.HarmonicOscillator
 
 open Real Time ContDiff
 
+variable (S : HarmonicOscillator)
+
 /-!
 
 ### A. The period
