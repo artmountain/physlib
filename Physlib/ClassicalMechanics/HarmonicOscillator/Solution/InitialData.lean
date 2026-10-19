@@ -13,12 +13,30 @@ public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 /-!
 
-## The initial conditions
+# The initial conditions
+
+## i. Overview
 
 We define the type of initial conditions for the harmonic oscillator.
 The initial conditions are currently defined as an initial position and an initial velocity,
 that is the values of the solution and its time derivative at time `0`.
 
+## ii. Key results
+
+## iii. Table of contents
+- A. Definition of the initial conditions
+- B. Relation to other types of initial conditions
+  - B.1. Initial conditions at arbitrary time
+  - B.2. Initial conditions from two positions at different times
+  - B.3. Initial conditions from two velocities at different times
+- C. The zero initial conditions
+  - C.1. Simple results for the zero initial conditions
+
+## iv. References
+
+References for the classical harmonic oscillator include:
+
+* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
 @[expose] public
@@ -31,7 +49,7 @@ open Real
 
 /-!
 
-### A. Definition of the initial conditions
+## A. Definition of the initial conditions
 
 We start by defining the type of initial conditions for the harmonic oscillator.
 
@@ -51,7 +69,7 @@ initial positions and initial velocities are equal. -/
 
 /-!
 
-### B. Relation to other types of initial conditions
+## B. Relation to other types of initial conditions
 
 We relate the initial condition given by an initial position and an initial velocity
 to other specifications of initial conditions.
@@ -79,7 +97,7 @@ the original specifications.
 
 /-!
 
-#### B.1. Initial conditions at arbitrary time
+### B.1. Initial conditions at arbitrary time
 
 We define a type for initial conditions specified at an arbitrary time `t₀`, rather than at `t=0`.
 This is useful when the natural reference point for a problem is not at time zero.
@@ -136,7 +154,7 @@ end InitialConditionsAtTime
 
 /-!
 
-#### B.2. Initial conditions from two positions at different times
+### B.2. Initial conditions from two positions at different times
 
 We define a type for initial conditions specified by two measured positions `xT₁` and `xT₂`
 at two distinct times `t₁` and `t₂`.
@@ -191,7 +209,7 @@ end InitialConditionsFromTwoPositions
 
 /-!
 
-#### B.3. Initial conditions from two velocities at different times
+### B.3. Initial conditions from two velocities at different times
 
 We define a type for initial conditions specified by two measured velocities `vT₁` and `vT₂`
 at two distinct times `t₁` and `t₂`.
@@ -245,7 +263,7 @@ end InitialConditionsFromTwoVelocities
 
 /-!
 
-### C. The zero initial conditions
+## C. The zero initial conditions
 
 The zero initial conditions are the initial conditions with zero initial position
 and zero initial velocity.
@@ -262,7 +280,7 @@ instance : Zero InitialConditions := ⟨0, 0⟩
 
 /-!
 
-#### C.1. Simple results for the zero initial conditions
+### C.1. Simple results for the zero initial conditions
 
 Some simple results about the zero initial conditions.
 

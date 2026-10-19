@@ -15,12 +15,19 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
 /-!
-## Uniqueness
+# Uniqueness
+
+## i. Overview
 
 We show that the trajectories are the unique solutions to the equation of motion
 for the given initial conditions.
 
-## References
+## ii. Key results
+
+## iii. Table of contents
+- A. Uniqueness
+
+## iv. References
 
 * Landau and Lifshitz, Mechanics, Section 32. [ref: landau_mechanics]
 -/

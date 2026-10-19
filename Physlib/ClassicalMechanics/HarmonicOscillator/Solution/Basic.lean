@@ -13,7 +13,9 @@ public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 /-!
-## Basic properties of trajectories
+# Basic properties of trajectories
+
+## i. Overview
 
 To each initial condition we association a trajectory. We will prove some basic properties
 of these trajectories.
@@ -21,6 +23,23 @@ of these trajectories.
 Eventually we will show that these trajectories satisfy the equation of motion, for
 now we can think of them as some choice of trajectory associated with the initial conditions.
 
+## ii. Key results
+
+## iii. Table of contents
+- A. The trajectory associated with the initial conditions
+  - A.1. Definitional equality for the trajectory
+- B. The trajectory for zero initial conditions
+- C. Smoothness of the trajectories
+- D. Velocity of the trajectories
+- E. Acceleration of the trajectories
+- F. The initial conditions of the trajectories
+- G. Trajectories and Equation of motion
+
+## iv. References
+
+References for the classical harmonic oscillator include:
+
+* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
 @[expose] public
@@ -37,7 +56,7 @@ namespace InitialConditions
 
 /-!
 
-### A. The trajectory associated with the initial conditions
+## A. The trajectory associated with the initial conditions
 
 -/
 
@@ -47,7 +66,7 @@ noncomputable def trajectory (IC : InitialConditions) : Time → EuclideanSpace 
 
 /-!
 
-#### A.1. Definitional equality for the trajectory
+### A.1. Definitional equality for the trajectory
 
 We show a basic definitional equality for the trajectory.
 
@@ -57,7 +76,7 @@ lemma trajectory_eq (IC : InitialConditions) :
 
 /-!
 
-### B. The trajectory for zero initial conditions
+## B. The trajectory for zero initial conditions
 
 The trajectory for zero initial conditions is the zero function.
 
@@ -70,7 +89,7 @@ lemma trajectory_zero : trajectory S 0 = fun _ => 0 := by
 
 /-!
 
-### C. Smoothness of the trajectories
+## C. Smoothness of the trajectories
 
 The trajectories for any initial conditions are smooth functions of time.
 
@@ -85,7 +104,7 @@ lemma trajectory_contDiff (S : HarmonicOscillator) (IC : InitialConditions) {n :
 
 /-!
 
-### D. Velocity of the trajectories
+## D. Velocity of the trajectories
 
 We give a simplification of the velocity of the trajectory.
 
@@ -114,7 +133,7 @@ lemma trajectory_velocity (IC : InitialConditions) : ∂ₜ (IC.trajectory S) =
 
 /-!
 
-### E. Acceleration of the trajectories
+## E. Acceleration of the trajectories
 
 We give a simplification of the acceleration of the trajectory.
 
@@ -137,7 +156,7 @@ lemma trajectory_acceleration (IC : InitialConditions) : ∂ₜ (∂ₜ (IC.traj
 
 /-!
 
-### F. The initial conditions of the trajectories
+## F. The initial conditions of the trajectories
 
 We show that, unsurprisingly, the trajectories have the initial conditions
 used to define them.

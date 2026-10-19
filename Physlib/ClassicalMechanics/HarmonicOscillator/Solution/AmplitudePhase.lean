@@ -14,7 +14,9 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 /-!
-## Amplitude–phase parametrization
+# Amplitude–phase parametrization
+
+## i. Overview
 
 The state of the harmonic oscillator at `t = 0` is captured by `InitialConditions` as a position
 `x₀` and a velocity `v₀`. An equivalent and often more physical description writes the solution as
@@ -33,6 +35,19 @@ trajectory is the cosine normal form above (with velocity `-A ω sin (ω t - φ)
 inverse map `(x₀, v₀) ↦ (A, φ)` as `fromInitialConditions`, recovering `A` and `φ` as the polar
 coordinates of the phase vector `(x₀, v₀ / ω)`.
 
+## ii. Key results
+
+## iii. Table of contents
+- A. The amplitude–phase initial conditions
+- B. Conversion to standard initial conditions
+- C. The trajectory in normal form
+- D. Recovering the amplitude and phase
+
+## iv. References
+
+References for the classical harmonic oscillator include:
+
+* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
 @[expose] public noncomputable section
@@ -45,7 +60,7 @@ variable (S : HarmonicOscillator)
 
 /-!
 
-### A. The amplitude–phase initial conditions
+## A. The amplitude–phase initial conditions
 
 We define a type for initial conditions specified by an amplitude `A` and a phase angle `φ`. Being
 an amplitude and an angle, these are stored as scalars, rather than as vectors as for the other
@@ -68,7 +83,7 @@ namespace AmplitudePhase
 
 /-!
 
-### B. Conversion to standard initial conditions
+## B. Conversion to standard initial conditions
 
 Using `x₀ = A cos φ` and `v₀ = A ω sin φ`, we convert amplitude–phase data to the standard initial
 position and velocity at `t = 0`.
@@ -87,7 +102,7 @@ noncomputable def toInitialConditions (S : HarmonicOscillator) (IC : AmplitudePh
 
 /-!
 
-### C. The trajectory in normal form
+## C. The trajectory in normal form
 
 The trajectory built from amplitude–phase data is exactly the single cosine
 `x(t) = A cos (ω t - φ)`, with velocity `v(t) = -A ω sin (ω t - φ)`. In the position identity the
@@ -120,7 +135,7 @@ lemma toInitialConditions_velocity_eq_sin (S : HarmonicOscillator) (IC : Amplitu
 
 /-!
 
-### D. Recovering the amplitude and phase
+## D. Recovering the amplitude and phase
 
 The inverse map `(x₀, v₀) ↦ (A, φ)` must solve `x₀ = A cos φ` and `v₀ / ω = A sin φ`. Recovering
 the angle with the real `arctan` covers only `(-π/2, π/2)` and forces a case split at `x₀ = 0`; we

@@ -14,8 +14,40 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 /-!
 
-## The energy of the trajectories
+# The energy of the trajectories
 
+## i. Overview
+
+The state of the harmonic oscillator at `t = 0` is captured by `InitialConditions` as a position
+`x₀` and a velocity `v₀`. An equivalent and often more physical description writes the solution as
+a single shifted cosine of amplitude `A` and phase `φ`:
+  `x(t) = A cos (ω t - φ)`.
+
+Expanding with the angle-subtraction identity,
+  `A cos (ω t - φ) = (A cos φ) cos (ω t) + (A sin φ) sin (ω t)`,
+and matching coefficients against the standard solution
+  `x(t) = cos (ω t) x₀ + (sin (ω t) / ω) v₀`
+gives the change of coordinates
+  `x₀ = A cos φ`,   `v₀ = A ω sin φ`.
+
+We implement the forward map `(A, φ) ↦ (x₀, v₀)` as `toInitialConditions`, prove the resulting
+trajectory is the cosine normal form above (with velocity `-A ω sin (ω t - φ)`), and implement the
+inverse map `(x₀, v₀) ↦ (A, φ)` as `fromInitialConditions`, recovering `A` and `φ` as the polar
+coordinates of the phase vector `(x₀, v₀ / ω)`.
+
+## ii. Key results
+
+## iii. Table of contents
+- A. Conservation of energy
+- B. Correctness of InitialConditionsAtTime conversion
+- C. Correctness of InitialConditionsFromTwoPositions conversion
+- D. Correctness of InitialConditionsFromTwoVelocities conversion
+
+## iv. References
+
+References for the classical harmonic oscillator include:
+
+* Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
 @[expose] public
@@ -49,7 +81,7 @@ end InitialConditions
 
 /-!
 
-### B. Correctness of InitialConditionsAtTime conversion
+## B. Correctness of InitialConditionsAtTime conversion
 
 We now prove the correctness lemmas for the `InitialConditionsAtTime.toInitialConditions`
 conversion function. These show that the conversion produces a trajectory that passes through
@@ -99,7 +131,7 @@ end InitialConditionsAtTime
 
 /-!
 
-### C. Correctness of InitialConditionsFromTwoPositions conversion
+## C. Correctness of InitialConditionsFromTwoPositions conversion
 
 The conversion recovers the initial conditions only when `sin (S.ω * (t₂ - t₁)) ≠ 0`. This
 condition fails exactly when `ω·(t₂ - t₁) = n·π` for some integer `n`, i.e. when `t₂ - t₁` is an
@@ -141,7 +173,7 @@ end InitialConditionsFromTwoPositions
 
 /-!
 
-### D. Correctness of InitialConditionsFromTwoVelocities conversion
+## D. Correctness of InitialConditionsFromTwoVelocities conversion
 
 The conversion recovers the initial conditions only when `sin (S.ω * (t₂ - t₁)) ≠ 0`. Under this
 nondegeneracy condition, we prove that the resulting trajectory has velocity `vT₁` at `t₁` and
