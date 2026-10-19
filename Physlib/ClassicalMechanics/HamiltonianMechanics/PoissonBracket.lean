@@ -274,6 +274,53 @@ lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
   rw [real_inner_comm]
   exact inner_fderiv_gradient_param G x y v w
 
+/-- The gradient of a `C²` function is differentiable. -/
+lemma differentiableAt_gradient {g : X → ℝ} {x : X} (hg : ContDiffAt ℝ 2 g x) :
+    DifferentiableAt ℝ (gradient g) x := by
+  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fderiv ℝ g) x
+  rw [(toDual ℝ X).symm.comp_differentiableAt_iff]
+  exact (hg.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
+
+lemma differentiableAt_gradient_fst {f : X → X → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
+    DifferentiableAt ℝ (gradient fun p' => f p' q) p :=
+  differentiableAt_gradient (hf.comp (contDiff_id.prodMk contDiff_const)).contDiffAt
+
+lemma differentiableAt_gradient_snd {f : X → X → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
+    DifferentiableAt ℝ (gradient fun q' => f p q') q :=
+  differentiableAt_gradient (hf.comp (contDiff_const.prodMk contDiff_id)).contDiffAt
+
+lemma differentiableAt_gradient_mixed_fst {f : X → X → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
+    DifferentiableAt ℝ (fun p' => gradient (fun q' => f p' q') q) p := by
+  have hF1 : Differentiable ℝ (Function.uncurry f) := hf.differentiable (by norm_num)
+  have hF2 : Differentiable ℝ (fderiv ℝ (Function.uncurry f)) :=
+    (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
+  have h : (fun p' => fderiv ℝ (fun q' => f p' q') q) =
+      fun p' => (fderiv ℝ (Function.uncurry f) (p', q)).comp (ContinuousLinearMap.inr ℝ X X) := by
+    funext p'
+    exact ((hF1 (p', q)).hasFDerivAt.comp q (hasFDerivAt_prodMk_right (𝕜 := ℝ) p' q)).fderiv
+  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fun p' => fderiv ℝ (fun q' => f p' q') q) p
+  rw [(toDual ℝ X).symm.comp_differentiableAt_iff, h]
+  exact ((hF2 (p, q)).comp p (differentiableAt_id.prodMk (differentiableAt_const q))).clm_comp
+    (differentiableAt_const _)
+
+lemma differentiableAt_gradient_mixed_snd {f : X → X → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
+    DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q := by
+  have hF1 : Differentiable ℝ (Function.uncurry f) := hf.differentiable (by norm_num)
+  have hF2 : Differentiable ℝ (fderiv ℝ (Function.uncurry f)) :=
+    (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
+  have h : (fun q' => fderiv ℝ (fun p' => f p' q') p) =
+      fun q' => (fderiv ℝ (Function.uncurry f) (p, q')).comp (ContinuousLinearMap.inl ℝ X X) := by
+    funext q'
+    exact ((hF1 (p, q')).hasFDerivAt.comp p (hasFDerivAt_prodMk_left (𝕜 := ℝ) p q')).fderiv
+  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fun q' => fderiv ℝ (fun p' => f p' q') p) q
+  rw [(toDual ℝ X).symm.comp_differentiableAt_iff, h]
+  exact ((hF2 (p, q)).comp q ((differentiableAt_const p).prodMk differentiableAt_id)).clm_comp
+    (differentiableAt_const _)
+
 /-- The Jacobi identity for the Poisson bracket. -/
 lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
     (hf₁ : ContDiff ℝ 2 (Function.uncurry f₁))
@@ -287,9 +334,14 @@ lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
     poissonBracket_eq_fderiv f₂ (poissonBracket f₃ f₁),
     poissonBracket_eq_fderiv f₃ (poissonBracket f₁ f₂)]
   -- 2. Unfold the inner brackets, then split differences and apply the product rule.
-  --    (`sorry` discharges the differentiability side conditions for now.)
   simp only [poissonBracket]
-  simp (disch := sorry) only [fderiv_fun_sub, sub_apply, fderiv_inner_apply ℝ]
+  simp (disch := ((try apply DifferentiableAt.inner ℝ) <;>
+      first
+      | (apply differentiableAt_gradient_fst; assumption)
+      | (apply differentiableAt_gradient_snd; assumption)
+      | (apply differentiableAt_gradient_mixed_fst; assumption)
+      | (apply differentiableAt_gradient_mixed_snd; assumption)))
+    only [fderiv_fun_sub, sub_apply, fderiv_inner_apply ℝ]
   -- 3. Derivatives of gradients become second derivatives.
   simp only [inner_fderiv_gradient, inner_fderiv_gradient',
     inner_fderiv_gradient_param, inner_fderiv_gradient_param']
