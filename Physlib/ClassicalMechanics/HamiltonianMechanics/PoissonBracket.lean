@@ -276,21 +276,13 @@ lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
 
 /-- The Jacobi identity for the Poisson bracket. -/
 lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
-    -- second `p`-derivatives are symmetric
-    (hp₁ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₁ p' q) p v w =
-      fderiv ℝ (fderiv ℝ fun p' => f₁ p' q) p w v)
-    (hp₂ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₂ p' q) p v w =
-      fderiv ℝ (fderiv ℝ fun p' => f₂ p' q) p w v)
-    (hp₃ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₃ p' q) p v w =
-      fderiv ℝ (fderiv ℝ fun p' => f₃ p' q) p w v)
-    -- second `q`-derivatives are symmetric
-    (hq₁ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₁ p q') q v w =
-      fderiv ℝ (fderiv ℝ fun q' => f₁ p q') q w v)
-    (hq₂ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₂ p q') q v w =
-      fderiv ℝ (fderiv ℝ fun q' => f₂ p q') q w v)
-    (hq₃ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₃ p q') q v w =
-      fderiv ℝ (fderiv ℝ fun q' => f₃ p q') q w v)
-    -- mixed partial derivatives commute
+    (hcp₁ : ContDiffAt ℝ 2 (fun p' => f₁ p' q) p)
+    (hcp₂ : ContDiffAt ℝ 2 (fun p' => f₂ p' q) p)
+    (hcp₃ : ContDiffAt ℝ 2 (fun p' => f₃ p' q) p)
+    (hcq₁ : ContDiffAt ℝ 2 (fun q' => f₁ p q') q)
+    (hcq₂ : ContDiffAt ℝ 2 (fun q' => f₂ p q') q)
+    (hcq₃ : ContDiffAt ℝ 2 (fun q' => f₃ p q') q)
+    -- mixed partial derivatives commute (to be derived from C² later)
     (hm₁ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₁ p' q') p) q w v =
       fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₁ p' q') q) p v w)
     (hm₂ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₂ p' q') p) q w v =
@@ -311,9 +303,12 @@ lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
   -- 3. Derivatives of gradients become second derivatives.
   simp only [inner_fderiv_gradient, inner_fderiv_gradient',
     inner_fderiv_gradient_param, inner_fderiv_gradient_param']
-  -- 4. Put every second derivative in a standard form, then everything cancels.
+  -- 4. Standard form for every second derivative, then everything cancels.
   simp only [hm₁, hm₂, hm₃]
-  simp only [hp₁, hp₂, hp₃, hq₁, hq₂, hq₃]
+  have hsymm : ∀ (g : X → ℝ) (x : X), ContDiffAt ℝ 2 g x →
+      ∀ v w, fderiv ℝ (fderiv ℝ g) x v w = fderiv ℝ (fderiv ℝ g) x w v :=
+    fun g x hg => hg.isSymmSndFDerivAt (by simp)
+  simp (disch := assumption) only [hsymm]
   ring
 
 end ClassicalMechanics
