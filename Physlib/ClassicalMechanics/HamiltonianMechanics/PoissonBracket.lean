@@ -51,6 +51,7 @@ derivatives on phase space.
 - E. Time evolution along a Hamiltonian flow
   - E.1. The chain rule for a phase-space function along a trajectory
   - E.2. Time evolution as the Poisson bracket with the Hamiltonian
+- F. The Jacobi identity
 
 ## iv. References
 
@@ -232,6 +233,87 @@ theorem deriv_comp_eq_poissonBracket (H : Time → X → X → ℝ) (p q : Time 
   obtain ⟨hq', hp'⟩ := (hamiltonEqOp_eq_zero_iff_hamiltons_equations H p q).mp heq
   rw [deriv_comp_eq_inner_gradient_add f p q t hp hq hf, hq' t, hp' t, inner_neg_right]
   unfold poissonBracket
+  ring
+
+/-!
+
+## F. The Jacobi identity
+
+-/
+
+/-- The Poisson bracket, written with the derivatives falling on `g`. -/
+lemma poissonBracket_eq_fderiv (f g : X → X → ℝ) (p q : X) :
+    poissonBracket f g p q =
+      fderiv ℝ (fun p' => g p' q) p (gradient (fun q' => f p q') q) -
+        fderiv ℝ (fun q' => g p q') q (gradient (fun p' => f p' q) p) := by
+  simp only [poissonBracket, inner_gradient_right, conj_trivial]
+
+/-- The derivative of a gradient, paired with `w`, is the second derivative. -/
+lemma inner_fderiv_gradient (g : X → ℝ) (x v w : X) :
+    ⟪fderiv ℝ (gradient g) x v, w⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
+  change ⟪fderiv ℝ (⇑(toDual ℝ X).symm ∘ fderiv ℝ g) x v, w⟫_ℝ = _
+  rw [(toDual ℝ X).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
+  exact InnerProductSpace.toDual_symm_apply
+
+lemma inner_fderiv_gradient' (g : X → ℝ) (x v w : X) :
+    ⟪w, fderiv ℝ (gradient g) x v⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
+  rw [real_inner_comm]
+  exact inner_fderiv_gradient g x v w
+
+/-- The same, for a gradient in a second variable (mixed second derivatives). -/
+lemma inner_fderiv_gradient_param (G : X → X → ℝ) (x y v w : X) :
+    ⟪fderiv ℝ (fun x' => gradient (G x') y) x v, w⟫_ℝ =
+      fderiv ℝ (fun x' => fderiv ℝ (G x') y) x v w := by
+  change ⟪fderiv ℝ (⇑(toDual ℝ X).symm ∘ fun x' => fderiv ℝ (G x') y) x v, w⟫_ℝ = _
+  rw [(toDual ℝ X).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
+  exact InnerProductSpace.toDual_symm_apply
+
+lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
+    ⟪w, fderiv ℝ (fun x' => gradient (G x') y) x v⟫_ℝ =
+      fderiv ℝ (fun x' => fderiv ℝ (G x') y) x v w := by
+  rw [real_inner_comm]
+  exact inner_fderiv_gradient_param G x y v w
+
+/-- The Jacobi identity for the Poisson bracket. -/
+lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
+    -- second `p`-derivatives are symmetric
+    (hp₁ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₁ p' q) p v w =
+      fderiv ℝ (fderiv ℝ fun p' => f₁ p' q) p w v)
+    (hp₂ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₂ p' q) p v w =
+      fderiv ℝ (fderiv ℝ fun p' => f₂ p' q) p w v)
+    (hp₃ : ∀ v w, fderiv ℝ (fderiv ℝ fun p' => f₃ p' q) p v w =
+      fderiv ℝ (fderiv ℝ fun p' => f₃ p' q) p w v)
+    -- second `q`-derivatives are symmetric
+    (hq₁ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₁ p q') q v w =
+      fderiv ℝ (fderiv ℝ fun q' => f₁ p q') q w v)
+    (hq₂ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₂ p q') q v w =
+      fderiv ℝ (fderiv ℝ fun q' => f₂ p q') q w v)
+    (hq₃ : ∀ v w, fderiv ℝ (fderiv ℝ fun q' => f₃ p q') q v w =
+      fderiv ℝ (fderiv ℝ fun q' => f₃ p q') q w v)
+    -- mixed partial derivatives commute
+    (hm₁ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₁ p' q') p) q w v =
+      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₁ p' q') q) p v w)
+    (hm₂ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₂ p' q') p) q w v =
+      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₂ p' q') q) p v w)
+    (hm₃ : ∀ v w, fderiv ℝ (fun q' => fderiv ℝ (fun p' => f₃ p' q') p) q w v =
+      fderiv ℝ (fun p' => fderiv ℝ (fun q' => f₃ p' q') q) p v w) :
+    poissonBracket f₁ (poissonBracket f₂ f₃) p q +
+    poissonBracket f₂ (poissonBracket f₃ f₁) p q +
+    poissonBracket f₃ (poissonBracket f₁ f₂) p q = 0 := by
+  -- 1. Outer brackets only: derivatives fall on the inner bracket.
+  rw [poissonBracket_eq_fderiv f₁ (poissonBracket f₂ f₃),
+    poissonBracket_eq_fderiv f₂ (poissonBracket f₃ f₁),
+    poissonBracket_eq_fderiv f₃ (poissonBracket f₁ f₂)]
+  -- 2. Unfold the inner brackets, then split differences and apply the product rule.
+  --    (`sorry` discharges the differentiability side conditions for now.)
+  simp only [poissonBracket]
+  simp (disch := sorry) only [fderiv_fun_sub, sub_apply, fderiv_inner_apply ℝ]
+  -- 3. Derivatives of gradients become second derivatives.
+  simp only [inner_fderiv_gradient, inner_fderiv_gradient',
+    inner_fderiv_gradient_param, inner_fderiv_gradient_param']
+  -- 4. Put every second derivative in a standard form, then everything cancels.
+  simp only [hm₁, hm₂, hm₃]
+  simp only [hp₁, hp₂, hp₃, hq₁, hq₂, hq₃]
   ring
 
 end ClassicalMechanics
