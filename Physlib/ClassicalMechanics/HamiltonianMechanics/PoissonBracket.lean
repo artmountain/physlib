@@ -248,13 +248,6 @@ lemma poissonBracket_eq_fderiv (f g : X → X → ℝ) (p q : X) :
         fderiv ℝ (fun q' => g p q') q (gradient (fun p' => f p' q) p) := by
   simp only [poissonBracket, inner_gradient_right, conj_trivial]
 
-/-- The derivative of a gradient, paired with `w`, is the second derivative. -/
-lemma inner_fderiv_gradient (g : X → ℝ) (x v w : X) :
-    ⟪fderiv ℝ (gradient g) x v, w⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
-  change ⟪fderiv ℝ (⇑(toDual ℝ X).symm ∘ fderiv ℝ g) x v, w⟫_ℝ = _
-  rw [(toDual ℝ X).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
-  exact InnerProductSpace.toDual_symm_apply
-
 lemma inner_fderiv_gradient' (g : X → ℝ) (x v w : X) :
     ⟪w, fderiv ℝ (gradient g) x v⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
   rw [real_inner_comm]
@@ -273,13 +266,6 @@ lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
       fderiv ℝ (fun x' => fderiv ℝ (G x') y) x v w := by
   rw [real_inner_comm]
   exact inner_fderiv_gradient_param G x y v w
-
-/-- The gradient of a `C²` function is differentiable. -/
-lemma differentiableAt_gradient {g : X → ℝ} {x : X} (hg : ContDiffAt ℝ 2 g x) :
-    DifferentiableAt ℝ (gradient g) x := by
-  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fderiv ℝ g) x
-  rw [(toDual ℝ X).symm.comp_differentiableAt_iff]
-  exact (hg.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
 
 lemma differentiableAt_gradient_fst {f : X → X → ℝ}
     (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :

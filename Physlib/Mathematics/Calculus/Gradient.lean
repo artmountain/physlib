@@ -7,6 +7,7 @@ module
 
 public import Mathlib.Analysis.Calculus.Gradient.Basic
 public import Mathlib.Analysis.InnerProductSpace.Calculus
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
 /-!
 
 # Elementary rules for the gradient
@@ -231,6 +232,23 @@ lemma gradient_comp_coord {ι : Type*} [Fintype ι] [DecidableEq ι] {f : ℝ �
     gradient (fun y : EuclideanSpace ℝ ι => f (y i)) x = f' • EuclideanSpace.single i 1 := by
   exact (hf.comp_hasGradientAt (hasGradientAt_coord i x)).gradient
 
-end
+/-- The gradient of a `C^(n+1)` function is `C^n`. -/
+lemma ContDiffAt.gradient {g : F → ℝ} {x : F} {n : ℕ∞} (hg : ContDiffAt ℝ (n + 1) g x) :
+    ContDiffAt ℝ n (gradient g) x :=
+  (toDual ℝ F).symm.toContinuousLinearEquiv.comp_contDiffAt_iff.mpr (hg.fderiv_right le_rfl)
+
+/-- The gradient of a `C²` function is differentiable. -/
+lemma differentiableAt_gradient {g : F → ℝ} {x : F} (hg : ContDiffAt ℝ 2 g x) :
+    DifferentiableAt ℝ (gradient g) x := by
+  change DifferentiableAt ℝ (⇑(toDual ℝ F).symm ∘ fderiv ℝ g) x
+  rw [(toDual ℝ F).symm.comp_differentiableAt_iff]
+  exact (hg.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
+
+/-- The derivative of a gradient, paired with `w`, is the second derivative. -/
+lemma inner_fderiv_gradient (g : F → ℝ) (x v w : F) :
+    ⟪fderiv ℝ (gradient g) x v, w⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
+  change ⟪fderiv ℝ (⇑(toDual ℝ F).symm ∘ fderiv ℝ g) x v, w⟫_ℝ = _
+  rw [(toDual ℝ F).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
+  exact InnerProductSpace.toDual_symm_apply
 
 end
