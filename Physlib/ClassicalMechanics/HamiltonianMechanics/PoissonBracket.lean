@@ -275,7 +275,7 @@ lemma differentiableAt_gradient_fst {f : X → X → ℝ}
 lemma differentiableAt_gradient_snd {f : X → X → ℝ}
     (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
     DifferentiableAt ℝ (gradient fun q' => f p q') q :=
-  differentiableAt_gradient (hf.comp (contDiff_const.prodMk contDiff_id)).contDiffAt
+  differentiableAt_gradient_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
 lemma differentiableAt_gradient_mixed_fst {f : X → X → ℝ}
     (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
@@ -294,18 +294,8 @@ lemma differentiableAt_gradient_mixed_fst {f : X → X → ℝ}
 
 lemma differentiableAt_gradient_mixed_snd {f : X → X → ℝ}
     (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
-    DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q := by
-  have hF1 : Differentiable ℝ (Function.uncurry f) := hf.differentiable (by norm_num)
-  have hF2 : Differentiable ℝ (fderiv ℝ (Function.uncurry f)) :=
-    (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
-  have h : (fun q' => fderiv ℝ (fun p' => f p' q') p) =
-      fun q' => (fderiv ℝ (Function.uncurry f) (p, q')).comp (ContinuousLinearMap.inl ℝ X X) := by
-    funext q'
-    exact ((hF1 (p, q')).hasFDerivAt.comp p (hasFDerivAt_prodMk_left (𝕜 := ℝ) p q')).fderiv
-  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fun q' => fderiv ℝ (fun p' => f p' q') p) q
-  rw [(toDual ℝ X).symm.comp_differentiableAt_iff, h]
-  exact ((hF2 (p, q)).comp q ((differentiableAt_const p).prodMk differentiableAt_id)).clm_comp
-    (differentiableAt_const _)
+    DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q :=
+  differentiableAt_gradient_mixed_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
 /-- The Jacobi identity for the Poisson bracket. -/
 lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
