@@ -45,6 +45,12 @@ derivatives on phase space.
   an observable is its Poisson bracket with the Hamiltonian.
 - `fderiv_partial_comm` : mixed partial derivatives of a `C²` phase-space function commute.
 - `poissonBracket_jacobi` : Poisson brackets satisfy the Jacobi identity.
+- `poissonBracket_position_position`, `poissonBracket_momentum_momentum` : two functions of
+  position alone, or of momentum alone, have vanishing Poisson bracket.
+- `poissonBracket_inner_position_inner_momentum` : the canonical Poisson bracket
+  `{⟪a, q⟫, ⟪b, p⟫} = ⟪a, b⟫` of linear coordinate functionals.
+- `poissonBracket_coord_position_coord_momentum` : on Euclidean space, the canonical Poisson
+  bracket `{qᵢ, pⱼ} = δᵢⱼ`.
 
 ## iii. Table of contents
 
@@ -58,6 +64,9 @@ derivatives on phase space.
 - F. The Jacobi identity
   - F.1. Poisson bracket with derivatrives falling on `g`
   - F.2. The Jacobi identity
+- G. The canonical Poisson brackets
+  - G.1. Functions of position alone and of momentum alone
+  - G.2. Coordinate functionals
 
 ## iv. References
 
@@ -73,8 +82,6 @@ open InnerProductSpace Time
 namespace ClassicalMechanics
 
 variable {X} [NormedAddCommGroup X] [InnerProductSpace ℝ X] [CompleteSpace X]
-
-TODO "Add the canonical commutation relations for coordinate functionals"
 
 /-!
 
@@ -306,5 +313,60 @@ lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
   simp only [hsymm _ _ (hcp f₁ hf₁), hsymm _ _ (hcp f₂ hf₂), hsymm _ _ (hcp f₃ hf₃),
     hsymm _ _ (hcq f₁ hf₁), hsymm _ _ (hcq f₂ hf₂), hsymm _ _ (hcq f₃ hf₃)]
   ring
+
+/-!
+
+## G. The canonical Poisson brackets
+
+The Poisson-bracket analogue of the canonical commutation relations. On a general inner product
+space the coordinate functionals are the linear functionals `q ↦ ⟪a, q⟫` and `p ↦ ⟪b, p⟫`; on
+`EuclideanSpace ℝ ι` they are the coordinates `q ↦ q i` and `p ↦ p j`. The brackets
+`{qᵢ, qⱼ} = 0` and `{pᵢ, pⱼ} = 0` are instances of the results of G.1.
+
+-/
+
+/-!
+
+### G.1. Functions of position alone and of momentum alone
+
+-/
+
+/-- Two functions of position alone have vanishing Poisson bracket. -/
+lemma poissonBracket_position_position (f g : X → ℝ) (p q : X) :
+    poissonBracket (fun _ q' => f q') (fun _ q' => g q') p q = 0 := by
+  simp only [poissonBracket, gradient_fun_const, inner_zero_left, inner_zero_right, sub_zero]
+
+/-- Two functions of momentum alone have vanishing Poisson bracket. -/
+lemma poissonBracket_momentum_momentum (f g : X → ℝ) (p q : X) :
+    poissonBracket (fun p' _ => f p') (fun p' _ => g p') p q = 0 := by
+  simp only [poissonBracket, gradient_fun_const, inner_zero_left, inner_zero_right, sub_zero]
+
+/-- The Poisson bracket of a function of position with a function of momentum is the inner
+product of their gradients. -/
+lemma poissonBracket_position_momentum (f g : X → ℝ) (p q : X) :
+    poissonBracket (fun _ q' => f q') (fun p' _ => g p') p q =
+      ⟪gradient f q, gradient g p⟫_ℝ := by
+  simp only [poissonBracket, gradient_fun_const, inner_zero_left, sub_zero]
+
+/-!
+
+### G.2. Coordinate functionals
+
+-/
+
+/-- The canonical Poisson bracket of linear coordinate functionals:
+`{⟪a, q⟫, ⟪b, p⟫} = ⟪a, b⟫`. -/
+lemma poissonBracket_inner_position_inner_momentum (a b p q : X) :
+    poissonBracket (fun _ q' => ⟪a, q'⟫_ℝ) (fun p' _ => ⟪b, p'⟫_ℝ) p q = ⟪a, b⟫_ℝ := by
+  rw [poissonBracket_position_momentum, (hasGradientAt_inner_left a q).gradient,
+    (hasGradientAt_inner_left b p).gradient]
+
+/-- On Euclidean space, the canonical Poisson bracket of the coordinates is the Kronecker delta:
+`{qᵢ, pⱼ} = δᵢⱼ`. -/
+lemma poissonBracket_coord_position_coord_momentum {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (i j : ι) (p q : EuclideanSpace ℝ ι) :
+    poissonBracket (fun _ q' => q' i) (fun p' _ => p' j) p q = if i = j then 1 else 0 := by
+  rw [poissonBracket_position_momentum, gradient_coord, gradient_coord]
+  exact orthonormal_iff_ite.mp (EuclideanSpace.orthonormal_single (𝕜 := ℝ)) i j
 
 end ClassicalMechanics
