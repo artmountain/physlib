@@ -59,6 +59,7 @@ product space. The file is deliberately real: two of its rules (`gradient_const_
 - C. Scalar products and quadratic forms
 - D. The norm
 - E. Coordinate functionals on Euclidean space
+- F. Differentiability
 
 ## iv. References
 
@@ -232,9 +233,17 @@ lemma gradient_comp_coord {ι : Type*} [Fintype ι] [DecidableEq ι] {f : ℝ �
     gradient (fun y : EuclideanSpace ℝ ι => f (y i)) x = f' • EuclideanSpace.single i 1 := by
   exact (hf.comp_hasGradientAt (hasGradientAt_coord i x)).gradient
 
+/-!
+
+## F. Differentiability
+
+Establish differentiability properties for Gradients
+
+-/
+
 /-- The gradient of a `C^(n+1)` function is `C^n`. -/
 lemma ContDiffAt.gradient {g : F → ℝ} {x : F} {n : ℕ∞} (hg : ContDiffAt ℝ (n + 1) g x) :
-    ContDiffAt ℝ n (gradient g) x :=
+    ContDiffAt ℝ n (_root_.gradient g) x :=
   (toDual ℝ F).symm.toContinuousLinearEquiv.comp_contDiffAt_iff.mpr (hg.fderiv_right le_rfl)
 
 /-- The gradient of a `C²` function is differentiable. -/
@@ -250,5 +259,34 @@ lemma inner_fderiv_gradient (g : F → ℝ) (x v w : F) :
   change ⟪fderiv ℝ (⇑(toDual ℝ F).symm ∘ fderiv ℝ g) x v, w⟫_ℝ = _
   rw [(toDual ℝ F).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
   exact InnerProductSpace.toDual_symm_apply
+
+lemma differentiableAt_gradient_fst {f : F → F → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
+    DifferentiableAt ℝ (gradient fun p' => f p' q) p :=
+  differentiableAt_gradient (hf.comp (contDiff_id.prodMk contDiff_const)).contDiffAt
+
+lemma differentiableAt_gradient_snd {f : F → F → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : F) :
+    DifferentiableAt ℝ (gradient fun q' => f p q') q :=
+  differentiableAt_gradient_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
+
+lemma differentiableAt_gradient_mixed_fst {f : F → F → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : F) :
+    DifferentiableAt ℝ (fun p' => gradient (fun q' => f p' q') q) p := by
+  have hF1 : Differentiable ℝ (Function.uncurry f) := hf.differentiable (by norm_num)
+  have hF2 : Differentiable ℝ (fderiv ℝ (Function.uncurry f)) :=
+    (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
+  have h : (fun p' => fderiv ℝ (fun q' => f p' q') q) =
+      fun p' => (fderiv ℝ (Function.uncurry f) (p', q)).comp (ContinuousLinearMap.inr ℝ X X) := by
+    funext _; exact (hasFDerivAt_uncurry_snd (hF1 _)).fderiv
+  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fun p' => fderiv ℝ (fun q' => f p' q') q) p
+  rw [(toDual ℝ X).symm.comp_differentiableAt_iff, h]
+  exact ((hF2 (p, q)).comp p (differentiableAt_id.prodMk (differentiableAt_const q))).clm_comp
+    (differentiableAt_const _)
+
+lemma differentiableAt_gradient_mixed_snd {f : F → F → ℝ}
+    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : F) :
+    DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q :=
+  differentiableAt_gradient_mixed_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
 end

@@ -7,6 +7,8 @@ module
 
 public import Physlib.ClassicalMechanics.HamiltonianMechanics.HamiltonsEquations
 public import Physlib.Mathematics.Calculus.Gradient
+public import Physlib.Mathematics.ForMathLib.FDerivCurry
+
 /-!
 
 # The Poisson bracket
@@ -201,19 +203,12 @@ lemma deriv_comp_eq_inner_gradient_add (f : X → X → ℝ) (p q : Time → X) 
     ∂ₜ (fun t => f (p t) (q t)) t =
       ⟪gradient (fun p' => f p' (q t)) (p t), ∂ₜ p t⟫_ℝ +
       ⟪gradient (fun q' => f (p t) q') (q t), ∂ₜ q t⟫_ℝ := by
-  have h1 : HasFDerivAt (fun p' => f p' (q t))
-      ((fderiv ℝ (Function.uncurry f) (p t, q t)).comp (ContinuousLinearMap.inl ℝ X X)) (p t) :=
-    HasFDerivAt.comp (f := fun e : X => (e, q t)) (p t) hf.hasFDerivAt
-      (hasFDerivAt_prodMk_left (p t) (q t))
-  have h2 : HasFDerivAt (fun q' => f (p t) q')
-      ((fderiv ℝ (Function.uncurry f) (p t, q t)).comp (ContinuousLinearMap.inr ℝ X X)) (q t) :=
-    HasFDerivAt.comp (f := fun e : X => (p t, e)) (q t) hf.hasFDerivAt
-      (hasFDerivAt_prodMk_right (p t) (q t))
   have hF : HasFDerivAt (fun t => f (p t) (q t))
       ((fderiv ℝ (Function.uncurry f) (p t, q t)).comp ((fderiv ℝ p t).prod (fderiv ℝ q t))) t :=
     HasFDerivAt.comp (f := fun t => (p t, q t)) t hf.hasFDerivAt
       (hp.hasFDerivAt.prodMk hq.hasFDerivAt)
-  rw [inner_gradient_left, inner_gradient_left, h1.fderiv, h2.fderiv, Time.deriv_eq, hF.fderiv]
+  rw [inner_gradient_left, inner_gradient_left, (hasFDerivAt_uncurry_fst hf).fderiv,
+    (hasFDerivAt_uncurry_snd hf).fderiv, Time.deriv_eq, hF.fderiv]
   simp [ContinuousLinearMap.comp_apply, ContinuousLinearMap.prod_apply,
     ContinuousLinearMap.inl_apply, ContinuousLinearMap.inr_apply, ← Time.deriv_eq, ← map_add]
 
@@ -255,36 +250,6 @@ lemma inner_fderiv_gradient_param (G : X → X → ℝ) (x y v w : X) :
   change ⟪fderiv ℝ (⇑(toDual ℝ X).symm ∘ fun x' => fderiv ℝ (G x') y) x v, w⟫_ℝ = _
   rw [(toDual ℝ X).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
   exact InnerProductSpace.toDual_symm_apply
-
-lemma differentiableAt_gradient_fst {f : X → X → ℝ}
-    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
-    DifferentiableAt ℝ (gradient fun p' => f p' q) p :=
-  differentiableAt_gradient (hf.comp (contDiff_id.prodMk contDiff_const)).contDiffAt
-
-lemma differentiableAt_gradient_snd {f : X → X → ℝ}
-    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
-    DifferentiableAt ℝ (gradient fun q' => f p q') q :=
-  differentiableAt_gradient_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
-
-lemma differentiableAt_gradient_mixed_fst {f : X → X → ℝ}
-    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
-    DifferentiableAt ℝ (fun p' => gradient (fun q' => f p' q') q) p := by
-  have hF1 : Differentiable ℝ (Function.uncurry f) := hf.differentiable (by norm_num)
-  have hF2 : Differentiable ℝ (fderiv ℝ (Function.uncurry f)) :=
-    (hf.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero
-  have h : (fun p' => fderiv ℝ (fun q' => f p' q') q) =
-      fun p' => (fderiv ℝ (Function.uncurry f) (p', q)).comp (ContinuousLinearMap.inr ℝ X X) := by
-    funext p'
-    exact ((hF1 (p', q)).hasFDerivAt.comp q (hasFDerivAt_prodMk_right (𝕜 := ℝ) p' q)).fderiv
-  change DifferentiableAt ℝ (⇑(toDual ℝ X).symm ∘ fun p' => fderiv ℝ (fun q' => f p' q') q) p
-  rw [(toDual ℝ X).symm.comp_differentiableAt_iff, h]
-  exact ((hF2 (p, q)).comp p (differentiableAt_id.prodMk (differentiableAt_const q))).clm_comp
-    (differentiableAt_const _)
-
-lemma differentiableAt_gradient_mixed_snd {f : X → X → ℝ}
-    (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
-    DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q :=
-  differentiableAt_gradient_mixed_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
 /-- The Jacobi identity for the Poisson bracket. -/
 lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
