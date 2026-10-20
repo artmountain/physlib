@@ -60,7 +60,7 @@ derivatives on phase space.
   - E.1. The chain rule for a phase-space function along a trajectory
   - E.2. Time evolution as the Poisson bracket with the Hamiltonian
 - F. The Jacobi identity
-  - F.1. Poisson bracket with derivatrives falling on `g`
+  - F.1. Poisson bracket with derivatives falling on `g`
   - F.2. The Jacobi identity
 - G. The canonical Poisson brackets
   - G.1. Functions of position alone and of momentum alone
