@@ -248,11 +248,6 @@ lemma poissonBracket_eq_fderiv (f g : X → X → ℝ) (p q : X) :
         fderiv ℝ (fun q' => g p q') q (gradient (fun p' => f p' q) p) := by
   simp only [poissonBracket, inner_gradient_right, conj_trivial]
 
-lemma inner_fderiv_gradient' (g : X → ℝ) (x v w : X) :
-    ⟪w, fderiv ℝ (gradient g) x v⟫_ℝ = fderiv ℝ (fderiv ℝ g) x v w := by
-  rw [real_inner_comm]
-  exact inner_fderiv_gradient g x v w
-
 /-- The same, for a gradient in a second variable (mixed second derivatives). -/
 lemma inner_fderiv_gradient_param (G : X → X → ℝ) (x y v w : X) :
     ⟪fderiv ℝ (fun x' => gradient (G x') y) x v, w⟫_ℝ =
@@ -260,12 +255,6 @@ lemma inner_fderiv_gradient_param (G : X → X → ℝ) (x y v w : X) :
   change ⟪fderiv ℝ (⇑(toDual ℝ X).symm ∘ fun x' => fderiv ℝ (G x') y) x v, w⟫_ℝ = _
   rw [(toDual ℝ X).symm.comp_fderiv, ContinuousLinearMap.comp_apply]
   exact InnerProductSpace.toDual_symm_apply
-
-lemma inner_fderiv_gradient_param' (G : X → X → ℝ) (x y v w : X) :
-    ⟪w, fderiv ℝ (fun x' => gradient (G x') y) x v⟫_ℝ =
-      fderiv ℝ (fun x' => fderiv ℝ (G x') y) x v w := by
-  rw [real_inner_comm]
-  exact inner_fderiv_gradient_param G x y v w
 
 lemma differentiableAt_gradient_fst {f : X → X → ℝ}
     (hf : ContDiff ℝ 2 (Function.uncurry f)) (p q : X) :
@@ -318,9 +307,10 @@ lemma poissonBracket_jacobi (f₁ f₂ f₃ : X → X → ℝ) (p q : X)
       | (apply differentiableAt_gradient_mixed_fst; assumption)
       | (apply differentiableAt_gradient_mixed_snd; assumption)))
     only [fderiv_fun_sub, sub_apply, fderiv_inner_apply ℝ]
-  -- 3. Derivatives of gradients become second derivatives.
-  simp only [inner_fderiv_gradient, inner_fderiv_gradient',
-    inner_fderiv_gradient_param, inner_fderiv_gradient_param']
+  -- 3. Put every derivative on the left of its inner product,
+  --    then turn derivatives of gradients into second derivatives.
+  simp only [real_inner_comm (fderiv ℝ _ _ _ : X)]
+  simp only [inner_fderiv_gradient, inner_fderiv_gradient_param]
   -- 4. Mixed partial derivatives commute, for any `f` that is `C²` on phase space.
   have hmix : ∀ f : X → X → ℝ, ContDiff ℝ 2 (Function.uncurry f) → ∀ v w,
       fderiv ℝ (fun q' => fderiv ℝ (fun p' => f p' q') p) q w v =
