@@ -83,7 +83,7 @@ lemma differentiableAt_gradient_mixed_snd {f : F → F → ℝ}
     DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q :=
   differentiableAt_gradient_mixed_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
-set_option linter.unusedSectionVars false in
+omit [CompleteSpace F] in
 /-- Mixed partial derivatives of a `C²` phase-space function commute: differentiating in the
 momentum and then the position agrees with differentiating in the position and then the
 momentum. -/
