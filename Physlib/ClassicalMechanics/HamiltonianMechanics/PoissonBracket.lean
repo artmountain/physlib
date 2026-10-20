@@ -7,8 +7,6 @@ module
 
 public import Physlib.ClassicalMechanics.HamiltonianMechanics.HamiltonsEquations
 public import Physlib.ClassicalMechanics.HamiltonianMechanics.PhaseSpace
-public import Physlib.Mathematics.Calculus.Gradient
-public import Physlib.Mathematics.ForMathlib.FDerivCurry
 /-!
 
 # The Poisson bracket
