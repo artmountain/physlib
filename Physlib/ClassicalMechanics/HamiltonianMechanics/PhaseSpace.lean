@@ -5,9 +5,6 @@ Authors: Art Mountain
 -/
 module
 
-public import Mathlib.Analysis.Calculus.Gradient.Basic
-public import Mathlib.Analysis.InnerProductSpace.Calculus
-public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Physlib.Mathematics.Calculus.Gradient
 public import Physlib.Mathematics.ForMathlib.FDerivCurry
 /-!
@@ -27,8 +24,8 @@ derivatives might be needed for more the evolution of compound quantities.
 
 - `differentiableAt_gradient_fst` : second derivative in momentum exists.
 - `differentiableAt_gradient_snd` : second derivative in position exists.
-- `differentiableAt_gradient_mixed_fst` : position gradient of is differentiable in the momentum.
-- `differentiableAt_gradient_mixed_snd` : momentum gradient of is differentiable in the position.
+- `differentiableAt_gradient_mixed_fst` : position gradient is differentiable in the momentum.
+- `differentiableAt_gradient_mixed_snd` : momentum gradient is differentiable in the position.
 - `fderiv_partial_comm` : position and momentum derivatives commute
 
 ## iii. Table of contents
@@ -47,7 +44,6 @@ noncomputable section
 open InnerProductSpace
 
 variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F] [CompleteSpace F]
-  {f g : F → ℝ} {f' g' : F} {x : F}
 
 /-!
 
@@ -87,6 +83,7 @@ lemma differentiableAt_gradient_mixed_snd {f : F → F → ℝ}
     DifferentiableAt ℝ (fun q' => gradient (fun p' => f p' q') p) q :=
   differentiableAt_gradient_mixed_fst (f := flip f) (hf.comp (contDiff_snd.prodMk contDiff_fst)) q p
 
+set_option linter.unusedSectionVars false in
 /-- Mixed partial derivatives of a `C²` phase-space function commute: differentiating in the
 momentum and then the position agrees with differentiating in the position and then the
 momentum. -/
