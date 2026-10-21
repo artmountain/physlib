@@ -84,7 +84,7 @@ namespace HarmonicOscillator
   - C. The zero initial conditions
     - C.1. Simple results for the zero initial conditions
 
--Periodicity.lean : Periodicity and recurrence
+- Periodicity.lean : Periodicity and recurrence
   - A. The period
   - B. Periodicity of the trajectory
   - C. Return to the initial state
