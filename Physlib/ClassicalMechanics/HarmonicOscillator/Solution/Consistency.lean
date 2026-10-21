@@ -15,24 +15,23 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 
 ## i. Overview
 
-The state of the harmonic oscillator at `t = 0` is captured by `InitialConditions` as a position
-`x₀` and a velocity `v₀`. An equivalent and often more physical description writes the solution as
-a single shifted cosine of amplitude `A` and phase `φ`:
-  `x(t) = A cos (ω t - φ)`.
-
-Expanding with the angle-subtraction identity,
-  `A cos (ω t - φ) = (A cos φ) cos (ω t) + (A sin φ) sin (ω t)`,
-and matching coefficients against the standard solution
-  `x(t) = cos (ω t) x₀ + (sin (ω t) / ω) v₀`
-gives the change of coordinates
-  `x₀ = A cos φ`,   `v₀ = A ω sin φ`.
-
-We implement the forward map `(A, φ) ↦ (x₀, v₀)` as `toInitialConditions`, prove the resulting
-trajectory is the cosine normal form above (with velocity `-A ω sin (ω t - φ)`), and implement the
-inverse map `(x₀, v₀) ↦ (A, φ)` as `fromInitialConditions`, recovering `A` and `φ` as the polar
-coordinates of the phase vector `(x₀, v₀ / ω)`.
+Demonstrate that the different choices of initial conditions are self-consistent
 
 ## ii. Key results
+
+- `InitialConditionsAtTime.toInitialConditions_trajectory_at_t₀`,
+  `InitialConditionsAtTime.toInitialConditions_velocity_at_t₀` and
+  `InitialConditionsAtTime.toInitialConditions_energy_at_t₀` check respectively that the initial
+  conditions specified at a point in time create trajectories that pass through the correct
+  point with the correct velocity and with the correct energy.
+- `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₁` and
+  `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₂` check that when the
+  initial conditions are specified with two (time, position) pairs that the resulting
+  trajectory indeed has the correct position at each of the two specified points.
+- `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₁` and
+  `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₂` check that when the
+  initial conditions are specified with two (time, velocity) pairs that the resulting
+  trajectory indeed has the correct velocity at each of the two specified points.
 
 ## iii. Table of contents
 - A. Correctness of Initial Conditions

@@ -15,24 +15,11 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 
 ## i. Overview
 
-The state of the harmonic oscillator at `t = 0` is captured by `InitialConditions` as a position
-`x₀` and a velocity `v₀`. An equivalent and often more physical description writes the solution as
-a single shifted cosine of amplitude `A` and phase `φ`:
-  `x(t) = A cos (ω t - φ)`.
-
-Expanding with the angle-subtraction identity,
-  `A cos (ω t - φ) = (A cos φ) cos (ω t) + (A sin φ) sin (ω t)`,
-and matching coefficients against the standard solution
-  `x(t) = cos (ω t) x₀ + (sin (ω t) / ω) v₀`
-gives the change of coordinates
-  `x₀ = A cos φ`,   `v₀ = A ω sin φ`.
-
-We implement the forward map `(A, φ) ↦ (x₀, v₀)` as `toInitialConditions`, prove the resulting
-trajectory is the cosine normal form above (with velocity `-A ω sin (ω t - φ)`), and implement the
-inverse map `(x₀, v₀) ↦ (A, φ)` as `fromInitialConditions`, recovering `A` and `φ` as the polar
-coordinates of the phase vector `(x₀, v₀ / ω)`.
+Show that the energy is a conserved quantity, i.e. a constant of motion.
 
 ## ii. Key results
+
+- `trajectory_energy` demonstrates conservation of energy along any trajectory.
 
 ## iii. Table of contents
 - A. Conservation of energy

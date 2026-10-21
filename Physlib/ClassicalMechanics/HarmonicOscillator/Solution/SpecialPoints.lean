@@ -8,20 +8,28 @@ module
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
+
 /-!
 # Special conditions of the trajectory
 
 ## i. Overview
 
-We use the amplitude-phase parametrization to describe the special times of a trajectory.
-After converting arbitrary initial conditions to amplitude and phase, every trajectory
-has the form `x(t) = A cos (ω t - φ)` and its velocity has the form `v(t) = -Aω sin (ω t - φ)`.
+We demonstrate particular results about solution trajectories such as return times
 
-Thus the turning points of the motion are controlled by the zeros of `sin (ω t - φ)`, while the
-times at which the trajectory passes through the origin are controlled by the zeros of
-`cos (ω t - φ)`.
+YAP{ YAP}
 
 ## ii. Key results
+
+- `trajectory_eq_cos` shows that on converting the initial conditions to amplitude-phase form
+  and `trajectory_velocity_eq_sin` shows similarly that the velocity is a shifted simne.
+- There are 2 results showing that the velocity vanishes when the sine has value zero;
+  `trajectory_velocity_eq_zero_iff_sin_eq_zero` and when the phase is a multiple of pi;
+  `lemma trajectory_velocity_eq_zero_iff_exists_int`.
+- `trajectory_velocity_eq_zero_iff_norm_eq_amplitude` shows that bthe velocity vanishes when the
+  trajectory has norm equal to the amplitude, i.e. when it is at an extremum of position.
+- `trajectory_eq_zero_iff_cos_eq_zero` shows that the trajectory passes through zero when the
+  cosine factor in amplitude-phase form vanishes and `trajectory_eq_zero_iff_exists_int` shows that
+  the trajectory passes through zero when the phase is a half-odd-integer multiple of pi.
 
 ## iii. Table of contents
 - A. Normal form for standard initial conditions
