@@ -7,6 +7,7 @@ module
 
 public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
+
 /-!
 # Basic properties of trajectories
 
