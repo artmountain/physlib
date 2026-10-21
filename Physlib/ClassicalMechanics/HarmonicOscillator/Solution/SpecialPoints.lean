@@ -19,8 +19,8 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePh
 
 ## i. Overview
 
-We use the amplitude-phase parametrization from section E to describe the special times of a
-trajectory. After converting arbitrary initial conditions to amplitude and phase, every trajectory
+We use the amplitude-phase parametrization to describe the special times of a trajectory.
+After converting arbitrary initial conditions to amplitude and phase, every trajectory
 has the form `x(t) = A cos (ω t - φ)` and its velocity has the form `v(t) = -Aω sin (ω t - φ)`.
 
 Thus the turning points of the motion are controlled by the zeros of `sin (ω t - φ)`, while the
