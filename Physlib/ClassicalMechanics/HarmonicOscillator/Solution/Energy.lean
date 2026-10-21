@@ -5,12 +5,7 @@ Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
-public import Physlib.ClassicalMechanics.HarmonicOscillator.Basic
-public import Physlib.ClassicalMechanics.EulerLagrange
-public import Physlib.ClassicalMechanics.HamiltonianMechanics.HamiltonsEquations
-public import Physlib.Mathematics.Calculus.Gradient
 public import Mathlib.Algebra.Order.Archimedean.Real.Hom
-public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 /-!
 
