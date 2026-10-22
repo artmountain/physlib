@@ -42,6 +42,15 @@ TODO "There are some namespaces that should be changed. For example a lot of lem
 the `Initial Conditions` namespace. This change would have wider implications so separating that
 from splitting up the monolithic file"
 
+TODO "Do we need this file at all? It meets the original TODO's requirement for a single file to
+import but contains no results"
+
+TODO "If we decide to remove this, split the documentation across the files in the 'Solution'
+folder"
+
+TODO "Rationalize files in the 'Solution' folder. In particular, Consistency.lean could be folded
+into other files. This probably requires the namespace reorganization"
+
 @[expose] public section
 
 namespace ClassicalMechanics
