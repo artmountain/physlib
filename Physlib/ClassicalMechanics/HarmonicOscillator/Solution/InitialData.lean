@@ -35,6 +35,9 @@ References for the classical harmonic oscillator include:
 * Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
+TODO "Overhaul the documentation in this file. It's inherited fom the old single 'Solution.lean'
+file but could benefit from a rewrite"
+
 @[expose] public
 
 noncomputable section
