@@ -40,7 +40,7 @@ References for the classical harmonic oscillator include:
 
 TODO "There are some namespaces that should be changed. For example a lot of lemmas sit in
 the `Initial Conditions` namespace that are actually related to solutions or properties of the
-solutions. One suggetsion is to reserve the InitialConditions namespecae for initial data only
+solutions. One suggestion is to reserve the InitialConditions namespecae for initial data only
 and create a new namespace 'Trajectory' to store lemmas about the solutions themselves. This
 change would have wider implications hence postponing this until after we have made the change
 to split up the monolithic file."
