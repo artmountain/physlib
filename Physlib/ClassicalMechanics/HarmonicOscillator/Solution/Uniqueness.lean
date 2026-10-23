@@ -6,6 +6,7 @@ Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 module
 
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
+
 /-!
 # Uniqueness
 

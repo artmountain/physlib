@@ -3,6 +3,7 @@ Copyright (c) 2025 Joseph Tooby-Smith. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
+
 module
 
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase

@@ -5,7 +5,6 @@ Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
-public import Mathlib.Algebra.Order.Archimedean.Real.Hom
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 
 /-!

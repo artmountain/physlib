@@ -5,18 +5,15 @@ Authors: Nathaneal Sajan, Joseph Tooby-Smith, Lode Vermeulen
 -/
 module
 
-public import Physlib.ClassicalMechanics.HarmonicOscillator.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
-public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.InitialData
 
 /-!
 # Special conditions of the trajectory
 
 ## i. Overview
 
-We demonstrate particular results about solution trajectories such as return times
-
-YAP{ YAP}
+We demonstrate particular results about solution trajectories such as return times and points when
+the position or veliocity becomes zero
 
 ## ii. Key results
 
