@@ -28,8 +28,8 @@ now we can think of them as some choice of trajectory associated with the initia
 - `trajectory_acceleration`: The acceleration has the expected sinusoidal form.
 - `trajectory_position_at_zero`: The trajectory has the correct position at the point the initial
   conditions are specified.
-- `lemma trajectory_velocity_at_zero`: The trajectory has the correct velocity at the point the initial
-  conditions are specified.
+- `lemma trajectory_velocity_at_zero`: The trajectory has the correct velocity at the point the
+  initial conditions are specified.
 - `trajectory_equationOfMotion`: The trajectories satisfy the equation of motion.
 
 ## iii. Table of contents
