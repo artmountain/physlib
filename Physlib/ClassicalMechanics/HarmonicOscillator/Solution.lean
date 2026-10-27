@@ -24,10 +24,6 @@ prove that they satisfy the equation of motion, and prove some properties of the
 
 ## ii. Key results
 
-- `InitialConditions` is a structure for the initial conditions for the harmonic oscillator.
-- `trajectories` is the trajectories to the harmonic oscillator for given initial conditions.
-- `trajectories_equationOfMotion` proves that the solution satisfies the equation of motion.
-
 ## iii. Table of contents
 
 - A. A guide to what is in each file
