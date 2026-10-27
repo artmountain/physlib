@@ -17,7 +17,7 @@ Show that the energy is a conserved quantity, i.e. a constant of motion.
 
 ## ii. Key results
 
-- `trajectory_energy` demonstrates conservation of energy along any trajectory.
+- `trajectory_energy`: The energy is conserved along any trajectory.
 
 ## iii. Table of contents
 - A. Conservation of energy

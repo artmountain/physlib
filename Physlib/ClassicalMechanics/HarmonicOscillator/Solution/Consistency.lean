@@ -17,19 +17,24 @@ Demonstrate that the different choices of initial conditions are self-consistent
 
 ## ii. Key results
 
-- `InitialConditionsAtTime.toInitialConditions_trajectory_at_t₀`,
-  `InitialConditionsAtTime.toInitialConditions_velocity_at_t₀` and
-  `InitialConditionsAtTime.toInitialConditions_energy_at_t₀` check respectively that the initial
-  conditions specified at a point in time create trajectories that pass through the correct
-  point with the correct velocity and with the correct energy.
-- `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₁` and
-  `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₂` check that when the
+- `InitialConditionsAtTime.toInitialConditions_trajectory_at_t₀`: The initial conditions specified
+  at a point in time create trajectories that pass through the correct point.
+  `InitialConditionsAtTime.toInitialConditions_velocity_at_t₀`: The initial conditions specified
+  at a point in time create trajectories that pass through the initial point with the correct
+  velocity.
+  `InitialConditionsAtTime.toInitialConditions_energy_at_t₀`: The initial conditions specified
+  at a point in time create trajectories that pass through the initial point with the correct
+  energy.
+- `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₁`: Check that when the
   initial conditions are specified with two (time, position) pairs that the resulting
-  trajectory indeed has the correct position at each of the two specified points.
-- `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₁` and
-  `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₂` check that when the
+  trajectory has the correct position at the first of the two specified points.
+  `InitialConditionsFromTwoPositions.toInitialConditions_trajectory_at_t₂`: As above for the
+  second specified point.
+- `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₁`: Check that when the
   initial conditions are specified with two (time, velocity) pairs that the resulting
-  trajectory indeed has the correct velocity at each of the two specified points.
+  trajectory has the correct velocity at the first of the two specified points.
+  `InitialConditionsFromTwoVelocities.toInitialConditions_velocity_at_t₂`: As above for the
+  second specified point.
 
 ## iii. Table of contents
 - A. Correctness of Initial Conditions
@@ -43,6 +48,11 @@ References for the classical harmonic oscillator include:
 
 * Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
+
+TODO "Review whether the initial-condition consistency lemmas in this file belong with the
+corresponding trajectory or special-point results. Move overlapping results to the appropriate
+module and namespace, preserve any distinct results, then remove `Consistency.lean` and update
+its imports."
 
 @[expose] public
 

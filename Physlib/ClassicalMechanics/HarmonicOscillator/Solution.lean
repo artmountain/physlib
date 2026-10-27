@@ -39,22 +39,13 @@ References for the classical harmonic oscillator include:
 * Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
-TODO "There are some namespaces that should be changed. For example a lot of lemmas sit in
-the `Initial Conditions` namespace that are actually related to solutions or properties of the
-solutions. One suggestion is to reserve the InitialConditions namespecae for initial data only
-and create a new namespace 'Trajectory' to store lemmas about the solutions themselves. This
-change would have wider implications hence postponing this until after we have made the change
-to split up the monolithic file."
+TODO "Review the namespacing present across files in `./HarmonicOscillator/Solution`, for eg.
+trajectory-related declarations currently under InitialConditions could belong in a
+trajectory-focused namespace. Identify the affected declarations and downstream API impact before
+renaming them."
 
-TODO "There is debate around whether to keep this file. Its purpose is to allow the Harmonic
-Oscillator functionality to be included elsewhere with just one include statement. An alternative
-is to remove this file and split the documentation contained in it across the files in the
-'Solution' folder"
-
-TODO "Remove the file 'Consistency.lean'. This is really showing that solutions with a given set
-of initial conditions actually pass through the points specified in the initial conditions. It's
-very similar in functionality to the lemmas in 'SpecialPoints.lean'. It would require some work
-on the namespaces (first TODO above) to achieve this."
+TODO "Remove this file and split the documentation contained in it across the files in
+`./HarmonicOscillator/Solution`"
 
 @[expose] public section
 

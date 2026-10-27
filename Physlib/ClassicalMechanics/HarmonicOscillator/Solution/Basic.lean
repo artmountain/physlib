@@ -20,6 +20,18 @@ now we can think of them as some choice of trajectory associated with the initia
 
 ## ii. Key results
 
+- `trajectory`: The trajectory has the expected sinusoidal form.
+- `trajectory_eq`: Definitonal equality for the trajectory.
+- `trajectory_zero`: For zero initial conditions, the trajectory is zero.
+- `trajectory_contDiff`: The time derivative of the trajectory exists and is smooth.
+- `trajectory_velocity`: The velocity has the expected sinusoidal form.
+- `trajectory_acceleration`: The acceleration has the expected sinusoidal form.
+- `trajectory_position_at_zero`: The trajectory has the correct position at the point the initial
+  conditions are specified.
+- `lemma trajectory_velocity_at_zero`: The trajectory has the correct velocity at the point the initial
+  conditions are specified.
+- `trajectory_equationOfMotion`: The trajectories satisfy the equation of motion.
+
 ## iii. Table of contents
 - A. The trajectory associated with the initial conditions
   - A.1. Definitional equality for the trajectory

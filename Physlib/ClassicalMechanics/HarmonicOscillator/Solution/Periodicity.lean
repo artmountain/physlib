@@ -20,6 +20,13 @@ integer multiples of the period.
 
 ## ii. Key results
 
+- `period`: The oscillator period is the standard 2 pi / angular frequency.
+- `period_eq`: The notation "T" corresponds to the period defined above.
+- `period_pos`: The period is positive.
+- `trajectory_periodic`: The trajectory of the harmonic oscillator is periodic with
+  period of `2 * π / ω`.
+- `return_time`: The oscillator returns to its starting point on integer multiples of its period.
+
 ## iii. Table of contents
 - A. The period
 - B. Periodicity of the trajectory

@@ -31,6 +31,15 @@ coordinates of the phase vector `(x₀, v₀ / ω)`.
 
 ## ii. Key results
 
+- `toInitialConditions`: Amplitude–phase initial conditions converted to standard
+  initial conditions.
+- `toInitialConditions_trajectory_eq_cos`: The trajectory of amplitude–phase initial conditions is
+  the cosine normal form.
+- `toInitialConditions_velocity_eq_sin`: The trajectory of amplitude–phase initial conditions is
+  the sine normal form.
+- `fromInitialConditions`: Amplitude–phase initial conditions from standard initial conditions.
+- `toInitialConditions_fromInitialConditions`: Right inverse of `fromInitialConditions`.
+
 ## iii. Table of contents
 - A. The amplitude–phase initial conditions
 - B. Conversion to standard initial conditions

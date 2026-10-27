@@ -17,6 +17,8 @@ for the given initial conditions.
 
 ## ii. Key results
 
+- `trajectories_unique`: The soluition trajectory is unique given a set of initial conditions.
+
 ## iii. Table of contents
 - A. Uniqueness
 

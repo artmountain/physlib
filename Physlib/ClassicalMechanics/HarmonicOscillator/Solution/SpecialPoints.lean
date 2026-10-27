@@ -17,14 +17,16 @@ the position or veliocity becomes zero
 
 ## ii. Key results
 
+- `TempDistElectromagneticPotential`: The type of electromagnetic potentials as distributions.
 - `trajectory_eq_cos` shows that on converting the initial conditions to amplitude-phase form
-  and `trajectory_velocity_eq_sin` shows similarly that the velocity is a shifted simne.
-- There are 2 results showing that the velocity vanishes when the sine has value zero;
-  `trajectory_velocity_eq_zero_iff_sin_eq_zero` and when the phase is a multiple of pi;
-  `lemma trajectory_velocity_eq_zero_iff_exists_int`.
-- `trajectory_velocity_eq_zero_iff_norm_eq_amplitude` shows that bthe velocity vanishes when the
-  trajectory has norm equal to the amplitude, i.e. when it is at an extremum of position.
-- `trajectory_eq_zero_iff_cos_eq_zero` shows that the trajectory passes through zero when the
+  and `trajectory_velocity_eq_sin`: Similarly, the velocity is a shifted sine.
+- There are 2 results showing that the velocity vanishes when the sine has value zero.
+  `trajectory_velocity_eq_zero_iff_sin_eq_zero`: Velocity is 0 when the solution sine is zero.
+  `lemma trajectory_velocity_eq_zero_iff_exists_int`: Velocity is 0 when the phase is a multiple
+  of pi.
+- `trajectory_velocity_eq_zero_iff_norm_eq_amplitude`: The velocity vanishes when the trajectory
+  has norm equal to the amplitude, i.e. when it is at an extremum of position.
+- `trajectory_eq_zero_iff_cos_eq_zero`: The trajectory passes through zero when the
   cosine factor in amplitude-phase form vanishes and `trajectory_eq_zero_iff_exists_int` shows that
   the trajectory passes through zero when the phase is a half-odd-integer multiple of pi.
 

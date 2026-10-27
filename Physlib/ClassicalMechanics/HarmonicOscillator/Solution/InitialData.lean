@@ -18,6 +18,15 @@ that is the values of the solution and its time derivative at time `0`.
 
 ## ii. Key results
 
+- `toInitialConditions`: Convert initial conditions at time `t₀` to standard initial conditions
+  at `t=0`.
+- `InitialConditionsFromTwoPositionstoInitialCondition`: Convert two-position initial conditions
+  to standard initial conditions at `t = 0`.
+- `InitialConditionsFromTwoVelocities.toInitialConditions`: Convert two-velocity initial
+  conditions to standard initial conditions at `t = 0`.
+- `x₀_zero`: The zero initial condition has zero starting point. : x₀ 0 = 0 := rfl
+- `lemma v₀_zero`: The zero initial condition has zero starting velocity.
+
 ## iii. Table of contents
 - A. Definition of the initial conditions
 - B. Relation to other types of initial conditions
@@ -34,8 +43,8 @@ References for the classical harmonic oscillator include:
 * Landau & Lifshitz, Mechanics, page 58, section 21. [ref: landau_mechanics]
 -/
 
-TODO "Overhaul the documentation in this file. It's inherited from the old single 'Solution.lean'
-file but could benefit from a rewrite"
+TODO "Review the documentation in this file so the physical context of each initial-data choice is
+clear. Reduce repeated mathematical explanations and derivations where they obscure that context."
 
 @[expose] public
 
