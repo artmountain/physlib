@@ -14,7 +14,6 @@ public import Physlib.ClassicalMechanics.HarmonicOscillator.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Geometric.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Geometric.KineticEnergy
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Geometric.Trajectory
-public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.AmplitudePhase
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Basic
 public import Physlib.ClassicalMechanics.HarmonicOscillator.Solution.Consistency
