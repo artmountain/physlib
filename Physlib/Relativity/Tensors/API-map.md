@@ -1,18 +1,13 @@
 # Tensors
 
-## Abstract (Alpha)
+## Abstract
 
-A tensor species packages everything needed to work with a type of tensor in index notation — a
-symmetry group, index colors with a representation and a basis for each, a dual-color involution,
-and contraction, unit and metric data — and for each list of colors there are the tensors with those
-indices, the pure tensors and the component labels. On this base rest the operations of ordinary
-index notation: permutation and reindexing, tensor products, contraction within one tensor and
-across two, evaluation of an index, raising and lowering against the metric, and conjugation, with
-an elaborator turning pen-and-paper index expressions into these operations. Two species are built:
-the real Lorentz tensors over the Lorentz group, supporting Lorentz vectors and covectors, the
-Minkowski product, causal character, velocities and the rank-four Levi-Civita tensor; and the
-complex Lorentz tensors over SL(2, ℂ), which add the Weyl fermion colors. A canonical equivariant
-semilinear map takes the first species into the second.
+Tensors appear in one form or another throughout physics. The most common example is the
+Lorentz tensors, which in the most general setting also include Weyl fermions, and are associated
+with the Lorentz group in the real case and `SL(2, ℂ)` in the complex case. In this API we define
+the general framework for working with these tensors, and others, and their corresponding indices.
+The goal is to enable physicists to use index notation in a similar way to how they would on
+pen and paper.
 
 ## Content (Alpha)
 
@@ -247,10 +242,10 @@ indices. [62]
    `Module ℝ (CoMod d)`, `ContrMod.rep`, `CoMod.rep`, `ContrMod.stdBasis`, `CoMod.stdBasis`
 32. Physlib/Relativity/Tensors/RealTensor/Vector/Pre/Basic.lean — `contrBasis`, `coBasis`,
    `contrIsoCo`
-33. Physlib/Relativity/Tensors/RealTensor/Vector/Pre/Contraction.lean — `contrCoContract`,
-   `coContrContract`, `contrContrContractField`
-34. Physlib/Relativity/Tensors/RealTensor/Metrics/Pre.lean — `preContrMetric`, `preCoMetric`
-35. Physlib/Relativity/Tensors/RealTensor/Units/Pre.lean — `preContrCoUnit`, `preCoContrUnit`
+33. Physlib/Relativity/Tensors/RealTensor/Vector/Pre/Contraction.lean — `ContrMod.contr`,
+   `CoMod.contr`, `contrContrContractField`
+34. Physlib/Relativity/Tensors/RealTensor/Metrics/Pre.lean — `ContrMod.metric`, `CoMod.metric`
+35. Physlib/Relativity/Tensors/RealTensor/Units/Pre.lean — `CoMod.unit`, `ContrMod.unit`
 36. Physlib/Relativity/Tensors/RealTensor/Metrics/Basic.lean — `coMetric`, `contrMetric`,
    `actionT_coMetric`, `actionT_contrMetric`, `coMetric_repr_apply_eq_minkowskiMatrix`,
    `contrMetric_repr_apply_eq_minkowskiMatrix`, `metricTensor_repr_apply_eq_minkowskiMatrix`,
@@ -308,8 +303,8 @@ indices. [62]
    `complexLorentzTensor.Color`, `repDim`, `basis`, `rep`, `contrPCoeff_basis`
 54. Physlib/Relativity/Tensors/ComplexTensor/Vector/Pre/Modules.lean — `ContrℂModule`,
    `CoℂModule`, `ContrℂModule.SL2CRep`, `CoℂModule.SL2CRep`
-55. Physlib/Relativity/Tensors/ComplexTensor/Vector/Pre/Contraction.lean — `contrCoContraction`,
-   `coContrContraction`
+55. Physlib/Relativity/Tensors/ComplexTensor/Vector/Pre/Contraction.lean — `ContrℂModule.contr`,
+   `CoℂModule.contr`
 56. Physlib/Relativity/Tensors/ComplexTensor/Metrics/Basic.lean — `coMetric`, `contrMetric`,
    `leftMetric`, `rightMetric`, `dualLeftMetric`, `dualRightMetric`,
    `coMetric_eq_ofGaussianInt`, `leftMetric_eq_ofGaussianInt`
